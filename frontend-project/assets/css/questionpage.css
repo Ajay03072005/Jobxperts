@@ -1,11 +1,11 @@
-/* Add subtle glassmorphism effect */
+
 .container {
   backdrop-filter: blur(12px) saturate(150%);
   -webkit-backdrop-filter: blur(12px) saturate(150%);
   background: rgba(255, 255, 255, 0.85);
 }
 
-/* Question cards with gradient & shadow filter */
+
 .question-card {
   background: linear-gradient(135deg, #f3f3f3, #e2e2e2);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
@@ -13,13 +13,12 @@
   filter: drop-shadow(2px 2px 6px rgba(0,0,0,0.2));
 }
 
-/* Hover animation with brightness + scale */
+
 .question-card:hover {
   transform: translateY(-4px) scale(1.02);
   filter: brightness(1.05) drop-shadow(3px 3px 8px rgba(0,0,0,0.25));
 }
 
-/* Buttons with glowing filter */
 button {
   position: relative;
   overflow: hidden;
@@ -42,7 +41,7 @@ button:hover::after {
   opacity: 1;
 }
 
-/* Input focus with blur-glow */
+
 input:focus, select:focus, textarea:focus {
   outline: none;
   border-color: #4CAF50;

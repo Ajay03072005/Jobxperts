@@ -1,9 +1,10 @@
-<aside class="sidebar">
-    <style>
-        /* Navbar/Sidebar Styles */
+/* Navbar/Sidebar Styles */
 
-/* Ensure #navbar-container acts as sidebar in flex layout */
+/* Ensure #navbar-container acts as fixed sidebar */
 #navbar-container {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 260px;
     min-width: 260px;
     background: #fff;
@@ -12,15 +13,17 @@
     display: flex;
     flex-direction: column;
     height: 100vh;
+    z-index: 1000;
+    overflow-y: auto;
 }
 
 .sidebar {
-    width: 260px;
+    width: 100%;
     background: #fff;
-    border-right: 1px solid #e0e0e0;
     padding: 32px 0 0 0;
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 
 .sidebar-header {
@@ -68,20 +71,3 @@
     background: #1976d2;
     color: #fff;
 }
-    </style>
-    <div class="sidebar-header">
-        <img src="https://ui-avatars.com/api/?name=John+Doe&background=1976d2&color=fff" alt="Avatar" class="avatar">
-        <div>
-            <div class="portal-title">Student Portal</div>
-            <div class="portal-user">John Doe</div>
-        </div>
-    </div>
-    <nav class="sidebar-nav">
-        <a class="active" href="student-dashboard.html">Dashboard</a>
-        <a href="student-courses.html">My Courses</a>
-        <a href="student-result.html">Results</a>
-        <a href="student-placements.html">Placements</a>
-        <a href="student-profile.html">Profile</a>
-    </nav>
-</aside>
-

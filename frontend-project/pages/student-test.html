@@ -1,1 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>JobsXperts - Student Test Runner (Demo)</title>
+  <style>
+    /* Basic layout + styles (self-contained so no 404s) */
+    :root { --green:#16a34a; --violet:#7c3aed; --muted:#efefef; --accent:#0ea5e9; }
+    body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial; margin:0;background:#fafafa;color:#111}
+    header{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-bottom:1px solid #e5e7eb;background:#fff}
+    header .brand{cursor:pointer;font-weight:700}
+    header .center{font-size:1.05rem;font-weight:600}
+    header .meta{display:flex;align-items:center;gap:12px}
+    .avatar{width:40px;height:40px;border-radius:999px;background:#ddd;display:inline-flex;align-items:center;justify-content:center;font-weight:700;color:#555}
+    .container{max-width:1200px;margin:18px auto;padding:12px;display:flex;gap:18px}
+    aside.nav{width:220px;background:#fff;border:1px solid #e6e6e6;border-radius:8px;padding:12px;height:66vh;overflow:auto}
+    .nav-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+    .legend{display:flex;gap:8px;font-size:13px}
+    .legend .box{width:18px;height:18px;border-radius:4px}
+    .nav-grid{display:flex;flex-wrap:wrap;gap:8px}
+    .nav-item{width:40px;height:40px;background:var(--muted);display:flex;align-items:center;justify-content:center;border-radius:6px;cursor:pointer;border:1px solid #d1d5db}
+    .nav-item.current{border:2px solid #000}
+    .nav-item.answered{background:var(--green);color:#fff}
+    .nav-item.review{background:var(--violet);color:#fff}
 
+    section.main{flex:1;background:#fff;border:1px solid #e6e6e6;border-radius:8px;padding:16px;height:66vh;display:flex;flex-direction:column;justify-content:space-between}
+    .topbar{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #f1f1f1;padding-bottom:12px;margin-bottom:12px}
+    .timer{font-weight:700;color:#b91c1c}
+    .countdown-small{font-size:0.95rem}
+    .question-area{flex:1;overflow:auto;padding-right:6px}
+    pre.qtext{white-space:pre-wrap;font-size:1.05rem;margin:0 0 12px 0}
+    .options{display:flex;flex-direction:column;gap:10px}
+    .options label{display:flex;align-items:center;gap:10px;padding:8px;border-radius:6px;border:1px solid #f3f3f3;cursor:pointer}
+    .options input{width:18px;height:18px}
+    .controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    button.btn{padding:8px 14px;border-radius:6px;border:0;cursor:pointer}
+    .btn.primary{background:#2563eb;color:#fff}
+    .btn.ghost{background:#fff;border:1px solid #cbd5e1}
+    .btn.accent{background:var(--accent);color:#fff}
+    .footerbar{display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px solid #f3f4f6;margin-top:12px}
+    .autosave{font-size:13px;color:#374151}
+    .warning-badge{background:#fca5a5;padding:6px 10px;border-radius:6px;color:#7f1d1d;font-weight:700}
+
+    /* modal */
+    .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:80}
+    .modal{background:#fff;padding:18px;border-radius:8px;min-width:320px;max-width:420px}
+    .modal h3{margin:0 0 8px 0}
+    .modal .row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed #eee}
+    .modal .actions{display:flex;gap:8px;justify-content:flex-end;padding-top:12px}
+
+    /* fullscreen overlay when NOT in fullscreen */
+    .fs-overlay{position:fixed;inset:0;background:rgba(255,255,255,.9);z-index:90;display:none;align-items:center;justify-content:center}
+    .fs-overlay button{padding:12px 18px;border-radius:8px;background:var(--accent);color:#fff;border:0;cursor:pointer}
+
+    /* small toast used for confirmation */
+    .toast {
+      position: fixed;
+      right: 18px;
+      top: 78px;
+      background: #111;
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 8px;
+      z-index: 999;
+      display: none;
+      opacity: 0.95;
+    }
+
+    @media (max-width:900px){.container{flex-direction:column}.nav{width:100%;height:auto}.main{height:auto}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand" onclick="enterFullscreen()">MockMasters.</div>
+    <div class="center" id="testTitle">Sample Test - General Aptitude</div>
+    <div class="meta">
+      <div class="warning-badge" id="tabWarning" title="Tab switches">Tab switches: 0</div>
+      <div class="avatar" title="You">VN</div>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Navigation -->
+    <aside class="nav" id="navPanel">
+      <div class="nav-header">
+        <strong>Questions</strong>
+        <div class="autosave" id="autosaveStatus">Autosave: —</div>
+      </div>
+      <div class="legend">
+        <div style="display:flex;gap:8px;align-items:center">
+          <div class="box" style="background:var(--green)"></div><small>Answered</small>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <div class="box" style="background:var(--violet)"></div><small>Review</small>
+        </div>
+      </div>
+      <hr style="margin:8px 0">
+      <div class="nav-grid" id="questionNav"></div>
+    </aside>
+
+    <!-- Main -->
+    <section class="main">
+      <div>
+        <div class="topbar">
+          <div>
+            <div style="font-size:13px;color:#6b7280">Section: General</div>
+            <div style="font-weight:700" id="qNumber">Question 1</div>
+          </div>
+          <div style="text-align:right">
+            <div class="timer">Time Left</div>
+            <div class="countdown-small" id="countdown">00:00:00</div>
+          </div>
+        </div>
+
+        <div class="question-area">
+          <pre class="qtext" id="qText">Loading...</pre>
+
+          <div class="options" id="optionsArea"></div>
+
+          <div class="controls">
+            <button class="btn ghost" id="prevBtn">Previous</button>
+            <button class="btn primary" id="saveNextBtn">Save & Next</button>
+            <button class="btn ghost" id="clearBtn">Clear Response</button>
+            <button class="btn" id="markBtn" style="background:var(--violet);color:#fff">Mark for Review & Next</button>
+            <button class="btn accent" id="submitBtn">Submit</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="footerbar">
+        <div>
+          <small>Attempted: <span id="attemptedCount">0</span> &nbsp;|&nbsp; Marked: <span id="markedCount">0</span> &nbsp;|&nbsp; Total: <span id="totalQ">0</span></small>
+        </div>
+        <div>
+          <small class="autosave" id="lastSaved">Last saved: —</small>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Modal (confirm submit) -->
+  <div class="modal-backdrop" id="confirmModal">
+    <div class="modal">
+      <h3>Submit Test?</h3>
+      <div class="row"><div>Attempted</div><div id="mAttempted">0</div></div>
+      <div class="row"><div>Unattempted</div><div id="mUnattempted">0</div></div>
+      <div class="row"><div>Marked for review</div><div id="mMarked">0</div></div>
+      <div class="row"><div>Time left</div><div id="mTimeLeft">00:00:00</div></div>
+      <div class="actions">
+        <button class="btn ghost" onclick="closeConfirm()">Cancel</button>
+        <button class="btn primary" onclick="confirmSubmit()">Confirm Submit</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fullscreen overlay if not fullscreen (to enforce) -->
+  <div class="fs-overlay" id="fsOverlay">
+    <div style="text-align:center">
+      <p style="margin-bottom:12px;font-weight:700">Please return to fullscreen to continue the test</p>
+      <button onclick="enterFullscreen()">GO BACK TO TEST</button>
+    </div>
+  </div>
+
+  <!-- small toast (keeps UI minimal) -->
+  <div class="toast" id="toast">Test submitted successfully</div>
+
+<script>
+/* ========== Sample questions (replace with API fetch in production) ========== */
+const questions = [
+  { id: "q1", txt: "What is 2 + 2?", options: ["1","2","3","4"] },
+  { id: "q2", txt: "Which is a front-end library?", options: ["Express","React","Postgres","Redis"] },
+  { id: "q3", txt: "True or False: The Earth is flat.", options: ["True","False"] },
+  { id: "q4", txt: "Choose the correct HTML element for the largest heading:", options: ["<h1>","<head>","<heading>","<h6>"] },
+  { id: "q5", txt: "Which value completes: 5 * 3 = ?", options: ["8","15","25","53"] },
+  { id: "q6", txt: "What does CSS stand for?", options: ["Cascading Style Sheets","Computer Style Sheets","Creative Style System","Control Style Sheets"] }
+];
+
+/* ========== State ========== */
+let currentIndex = 0;
+let answers = {};           // { questionId: optionIndex | null }  (null = visited & saved without selecting)
+let marked = {};            // { questionId: true }
+let autosaveInterval = null;
+let countdownInterval = null;
+let autosaveEveryMs = 10000; // autosave every 10s
+let totalDurationSeconds = 60 * 5; // default 5 minutes (changeable)
+const LOCAL_KEY = "jx_demo_v1";
+
+/* ========== Utility: Shuffle (Fisher-Yates) ========== */
+function shuffleArray(arr){
+  for(let i = arr.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+}
+
+/* ========== Render UI ========== */
+function renderNav(){
+  const nav = document.getElementById("questionNav");
+  nav.innerHTML = "";
+  questions.forEach((q, idx) => {
+    const d = document.createElement("div");
+    d.className = "nav-item";
+    if(idx === currentIndex) d.classList.add("current");
+    // Treat a question as "answered (green)" if it has an explicit answer (including null) OR if it is marked for review.
+    if(answers[q.id] !== undefined || marked[q.id]) d.classList.add("answered");
+    // If it's explicitly marked for review, add review class (this will show purple)
+    if(marked[q.id]) d.classList.add("review");
+    d.innerText = idx + 1;
+    d.title = `Go to question ${idx+1}`;
+    d.onclick = () => { goToQuestion(idx); };
+    nav.appendChild(d);
+  });
+  document.getElementById("totalQ").innerText = questions.length;
+  updateCounts();
+}
+
+function renderQuestion(){
+  const q = questions[currentIndex];
+  document.getElementById("qNumber").innerText = `Question ${currentIndex + 1}`;
+  document.getElementById("qText").innerText = q.txt;
+
+  const optionsArea = document.getElementById("optionsArea");
+  optionsArea.innerHTML = "";
+  q.options.forEach((opt, i) => {
+    const id = `${q.id}_opt_${i}`;
+    const label = document.createElement("label");
+    label.htmlFor = id;
+    const radio = document.createElement("input");
+    radio.type = "radio";
+    radio.name = q.id;
+    radio.id = id;
+    radio.value = i;
+    // if answers[q.id] === null (visited & saved) we do NOT pre-check any option
+    if(answers[q.id] !== undefined && answers[q.id] !== null && answers[q.id] === i) radio.checked = true;
+    radio.onchange = () => {
+      answers[q.id] = i;
+      // If a previously-marked question got an actual option selected, clear 'marked'
+      if(marked[q.id]) delete marked[q.id];
+      renderNav();
+      updateCounts();
+    };
+    label.appendChild(radio);
+    const span = document.createElement("span");
+    span.innerText = opt;
+    label.appendChild(span);
+    optionsArea.appendChild(label);
+  });
+}
+
+/* ========== Navigation actions ========== */
+function goToQuestion(index){
+  if(index < 0 || index >= questions.length) return;
+  currentIndex = index;
+  renderQuestion();
+  renderNav();
+  saveTimeLeftToLocal();
+}
+
+function prevQuestion(){
+  if(currentIndex > 0) {
+    currentIndex--;
+    renderQuestion();
+    renderNav();
+  }
+}
+function saveAndNext(){
+  // If user visits a question that was previously 'marked for review' and clicks Save & Next,
+  // convert it into an 'answered' state (green). If no option is chosen we store null
+  const q = questions[currentIndex];
+  if(marked[q.id]){
+    delete marked[q.id];
+    if(answers[q.id] === undefined) answers[q.id] = null;
+  }
+  // radio onchange already saved choice in answers
+  if(currentIndex < questions.length - 1) {
+    currentIndex++;
+    renderQuestion();
+    renderNav();
+  }
+  updateCounts();
+  saveNow();
+}
+function clearResponse(){
+  const q = questions[currentIndex];
+  delete answers[q.id];
+  // uncheck radios in DOM
+  document.querySelectorAll(`input[name="${q.id}"]`).forEach(i => i.checked = false);
+  renderNav();
+  updateCounts();
+  saveNow();
+}
+function markForReviewAndNext(){
+  const q = questions[currentIndex];
+  marked[q.id] = true;
+  if(currentIndex < questions.length - 1) currentIndex++;
+  renderQuestion();
+  renderNav();
+  updateCounts();
+  saveNow();
+}
+
+/* ========== Counts / UI helpers ========== */
+function updateCounts(){
+  // Consider a question attempted if it has an answer (including null) OR if it is marked for review.
+  const attempted = questions.filter(q => (answers[q.id] !== undefined) || marked[q.id]).length;
+  const markedCount = Object.keys(marked).length;
+  document.getElementById("attemptedCount").innerText = attempted;
+  document.getElementById("markedCount").innerText = markedCount;
+  document.getElementById("attemptedCount").dataset.value = attempted;
+}
+
+/* ========== Autosave & server mock ========== */
+function autosave(){
+  // persist locally
+  persistLocal();
+  const now = new Date();
+  const timestr = now.toLocaleTimeString();
+  document.getElementById("autosaveStatus").innerText = `Autosaved: ${timestr}`;
+  document.getElementById("lastSaved").innerText = `Last saved: ${timestr}`;
+
+  // Try to POST to a backend endpoint (mock) - replace URL with real endpoint in production.
+  (async() => {
+    try {
+      await fetch("/api/autosave", {
+        method: "POST",
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ answers, marked, ts: Date.now() })
+      });
+    } catch (err) {
+      // ignore in demo
+    }
+  })();
+}
+
+function saveNow(){
+  persistLocal();
+  const now = new Date();
+  document.getElementById("lastSaved").innerText = `Last saved: ${now.toLocaleTimeString()}`;
+}
+
+/* ========== Timer logic ========== */
+function startCountdown(totalSeconds){
+  if(countdownInterval) clearInterval(countdownInterval);
+  let secondsLeft = totalSeconds;
+  const display = document.getElementById("countdown");
+  function tick(){
+    if(secondsLeft <= 0){
+      display.innerText = "00:00:00";
+      clearInterval(countdownInterval);
+      openConfirm(true);
+      return;
+    }
+    const hrs = Math.floor(secondsLeft/3600);
+    const mins = Math.floor((secondsLeft%3600)/60);
+    const secs = secondsLeft % 60;
+    display.innerText = `${String(hrs).padStart(2,"0")}:${String(mins).padStart(2,"0")}:${String(secs).padStart(2,"0")}`;
+    const mtime = document.getElementById("mTimeLeft");
+    if(mtime) mtime.innerText = display.innerText;
+    secondsLeft--;
+  }
+  tick();
+  countdownInterval = setInterval(tick, 1000);
+  return countdownInterval;
+}
+
+/* store time left into local for resume (intentionally minimal - fresh test on reload) */
+function saveTimeLeftToLocal(){}
+
+/* ========== Tab switch warning & auto-submit threshold ========== */
+let tabSwitchCount = 0;
+const TAB_SWITCH_THRESHOLD = 3;
+document.addEventListener("visibilitychange", () => {
+  if(document.hidden){
+    tabSwitchCount++;
+    // Do NOT update the top-right badge with the count (per request).
+    // Still show a flash and still auto-submit after threshold.
+    flashTemp(`Tab switch detected — This may be logged.`);
+    if(tabSwitchCount >= TAB_SWITCH_THRESHOLD){
+      flashTemp("Too many tab switches — submitting test automatically.");
+      openConfirm(true);
+    }
+  }
+});
+
+/* little helper for temporary messages */
+function flashTemp(msg, duration = 3500){
+  const el = document.createElement("div");
+  el.style.position = "fixed";
+  el.style.right = "18px";
+  el.style.top = "78px";
+  el.style.background = "#111";
+  el.style.color = "#fff";
+  el.style.padding = "10px 14px";
+  el.style.borderRadius = "8px";
+  el.style.zIndex = 999;
+  el.innerText = msg;
+  document.body.appendChild(el);
+  setTimeout(()=> el.remove(), duration);
+}
+
+/* ========== Submission flow (modal, confirm, finalization) ========== */
+function openConfirm(auto=false){
+  const attempted = questions.filter(q => (answers[q.id] !== undefined) || marked[q.id]).length;
+  const total = questions.length;
+  const markedCount = Object.keys(marked).length;
+  document.getElementById("mAttempted").innerText = attempted;
+  document.getElementById("mUnattempted").innerText = total - attempted;
+  document.getElementById("mMarked").innerText = markedCount;
+  document.getElementById("mTimeLeft").innerText = document.getElementById("countdown").innerText;
+  const modal = document.getElementById("confirmModal");
+  modal.style.display = "flex";
+  if(auto){
+    setTimeout(confirmSubmit, 1200);
+  }
+}
+function closeConfirm(){
+  document.getElementById("confirmModal").style.display = "none";
+}
+async function confirmSubmit(){
+  if(countdownInterval) clearInterval(countdownInterval);
+  if(autosaveInterval) clearInterval(autosaveInterval);
+
+  persistLocal();
+
+  try {
+    await fetch("/api/submit", {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({ answers, marked, submittedAt: Date.now() })
+    });
+  } catch(e){
+    // ignore in demo
+  }
+
+  // Close modal and disable UI (no detailed results shown)
+  closeConfirm();
+  disableTestUI();
+  showToast("Test submitted successfully");
+}
+
+/* ========== Toast helper ========== */
+function showToast(text){
+  const t = document.getElementById("toast");
+  t.innerText = text;
+  t.style.display = "block";
+  setTimeout(()=> { t.style.display = "none"; }, 3000);
+}
+
+/* disable UI to prevent further edits after submit */
+function disableTestUI(){
+  const opts = document.getElementById("optionsArea");
+  if(opts) opts.querySelectorAll("input").forEach(i => i.disabled = true);
+  document.getElementById("saveNextBtn").disabled = true;
+  document.getElementById("prevBtn").disabled = true;
+  document.getElementById("clearBtn").disabled = true;
+  document.getElementById("markBtn").disabled = true;
+  document.getElementById("submitBtn").disabled = true;
+}
+
+/* ========== Fullscreen handling ========== */
+function enterFullscreen(){
+  const el = document.documentElement;
+  if(el.requestFullscreen) el.requestFullscreen().catch(()=>{});
+  else if(el.webkitRequestFullscreen) el.webkitRequestFullscreen().catch(()=>{});
+  document.getElementById("fsOverlay").style.display = "none";
+}
+function checkFullscreenOverlay(){
+  const fsOverlay = document.getElementById("fsOverlay");
+  if(!document.fullscreenElement && window.innerWidth > 900){
+    fsOverlay.style.display = "flex";
+  } else {
+    fsOverlay.style.display = "none";
+  }
+}
+document.addEventListener("fullscreenchange", checkFullscreenOverlay);
+window.addEventListener("resize", checkFullscreenOverlay);
+
+/* ========== Persist helpers (localStorage) ========== */
+function loadLocalState(){
+  try {
+    const raw = localStorage.getItem(LOCAL_KEY);
+    if(raw){ const parsed = JSON.parse(raw); answers = parsed.answers || {}; marked = parsed.marked || {}; 
+      if(parsed.expireAt) {
+        const remain = Math.floor((parsed.expireAt - Date.now())/1000);
+        if(remain > 0) totalDurationSeconds = remain;
+      }
+    }
+  } catch(e){ console.warn("loadLocalState failed", e) }
+}
+function persistLocal(expireAt = null){
+  const payload = { answers, marked };
+  if(expireAt) payload.expireAt = expireAt;
+  try{ localStorage.setItem(LOCAL_KEY, JSON.stringify(payload)); } catch(e){ console.warn(e) }
+}
+
+/* ========== Initialize everything ========== */
+function init(){
+  // On refresh we want a fresh test with shuffled questions — clear prior saved state.
+  try { localStorage.removeItem(LOCAL_KEY); localStorage.removeItem(LOCAL_KEY + "_remain"); } catch(e){}
+  answers = {};
+  marked = {};
+  // shuffle questions so each page load shows a different order
+  shuffleArray(questions);
+
+  // render nav + question
+  renderNav();
+  renderQuestion();
+
+  // wire up buttons
+  document.getElementById("prevBtn").addEventListener("click", prevQuestion);
+  document.getElementById("saveNextBtn").addEventListener("click", saveAndNext);
+  document.getElementById("clearBtn").addEventListener("click", clearResponse);
+  document.getElementById("markBtn").addEventListener("click", markForReviewAndNext);
+  document.getElementById("submitBtn").addEventListener("click", () => openConfirm(false));
+
+  // start autosave interval
+  autosaveInterval = setInterval(autosave, autosaveEveryMs);
+  // initial autosave now
+  autosave();
+
+  // start countdown (fresh for each load)
+  startCountdown(totalDurationSeconds);
+
+  // check fullscreen overlay initially
+  checkFullscreenOverlay();
+}
+
+/* run on DOMContentLoaded */
+document.addEventListener("DOMContentLoaded", init);
+</script>
+</body>
+</html>

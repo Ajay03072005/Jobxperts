@@ -10,61 +10,13 @@
 </head>
 <body>
     <div class="app-container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-content">
-                <div class="logo-section">
-                    <img alt="EduPortal logo, blue and green circular icon with letter E" class="logo" src="https://storage.googleapis.com/a1aa/image/53b8ce36-9bab-4d9c-ecf4-8ed3e260972b.jpg">
-                    <div class="logo-text">
-                        <h1 class="logo-title">EduPortal</h1>
-                        <p class="logo-subtitle">Excellence in Education</p>
-                    </div>
-                </div>
-                
-                <div class="user-info">
-                    <img alt="Institute Portal icon, small blue circle with letter I" class="user-icon" src="https://storage.googleapis.com/a1aa/image/f9c0f335-d0d8-4828-8d97-7db4af327a8a.jpg">
-                    <div class="user-details">
-                        <p class="user-role">Institute Portal</p>
-                        <p class="user-name">John Doe</p>
-                    </div>
-                </div>
-                
-                <nav class="navigation">
-                    <a href="#" class="nav-item active">
-                        <i class="fas fa-tachometer-alt"></i>
-                        <span>Dashboard</span>
-                    </a>
-                    <a href="#" class="nav-item">
-                        <i class="fas fa-user-graduate"></i>
-                        <span>Student Management</span>
-                    </a>
-                    <a href="#" class="nav-item">
-                        <i class="fas fa-book"></i>
-                        <span>Course Management</span>
-                    </a>
-                    <a href="#" class="nav-item">
-                        <i class="fas fa-chalkboard-teacher"></i>
-                        <span>Manage Teachers</span>
-                    </a>
-                    <a href="#" class="nav-item">
-                        <i class="fas fa-chart-bar"></i>
-                        <span>Reports</span>
-                    </a>
-                </nav>
-            </div>
-            <div class="version-info">EduPortal v2.0</div>
-        </aside>
+        <!-- Navigation Component -->
+        <div id="navbar-container"></div>
 
         <!-- Main content -->
         <main class="main-content">
             <!-- Top bar -->
             <header class="top-bar">
-                <div class="role-buttons">
-                    <button class="role-btn" data-role="student">Student</button>
-                    <button class="role-btn" data-role="teacher">Teacher</button>
-                    <button class="role-btn active" data-role="institute">Institute</button>
-                    <button class="role-btn" data-role="admin">Admin</button>
-                </div>
                 <button class="notification-btn" title="Notifications">
                     <i class="fas fa-bell"></i>
                     <span class="notification-badge">3</span>
@@ -369,6 +321,7 @@
         </div>
     </div>
 
+      <script src="../assets/js/component-loader.js"></script>
       <script src="../assets/js/institute-dash.js"></script>
 </body>
 </html>

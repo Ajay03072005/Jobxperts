@@ -1,566 +1,158 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Test Management Institute</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" href="../assets/css/test-management.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>Test Management — Admin Dashboard</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/test-management.css">
+    <!-- libs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+   <link rel="stylesheet" href="test-management.css">
 </head>
+
 <body>
-  <section style="display:flex;flex-direction:column;min-width:0">
-    <header>
-      <div class="bar">
-        <div class="left">
-          <div class="title">Institute Test Management</div>
-          <div class="breadcrumbs" id="breadcrumbs">Dashboard ▸ Overview</div>
-        </div>
-        <div class="right">
-          <button class="btn ghost" id="btnDemoData">Load Demo Data</button>
-          <button class="btn" id="btnExport">Export Data</button>
-          <button class="btn primary" id="btnNewTest">+ New Test</button>
-        </div>
-      </div>
-    </header>
-
-    <main id="content">
-      <section id="profile">
-        <div class="section-title">
-          <h2>Institute Profile</h2><small>Institute information, mission & system overview</small>
-        </div>
-        <div class="grid cols-3">
-          <article class="card">
-            <h3>Institute Information</h3>
-            <p>Manage the basic profile shown to students and staff.</p>
-            <form class="form" id="formInstitute">
-              <div class="field"><label for="instName">Name</label><input id="instName" placeholder="e.g., Apex Test Institute" required></div>
-              <div class="field"><label for="instLocation">Location</label><input id="instLocation" placeholder="City, Country"></div>
-              <div class="field"><label for="instContact">Contact</label><input id="instContact" placeholder="email@institute.org | +91 90xxxxxx"></div>
-              <button class="btn" type="submit">Save Profile</button>
-            </form>
-          </article>
-          <article class="card">
-            <h3>About Us</h3>
-            <p>Define mission, vision, and core values.</p>
-            <form class="form" id="formAbout">
-              <div class="field"><label for="instMission">Mission</label><textarea id="instMission" placeholder="Our mission is…"></textarea></div>
-              <div class="field"><label for="instVision">Vision</label><textarea id="instVision" placeholder="We envision…"></textarea></div>
-              <div class="field"><label for="instValues">Values</label><textarea id="instValues" placeholder="Integrity, Excellence, …"></textarea></div>
-              <button class="btn" type="submit">Save About</button>
-            </form>
-          </article>
-          <article class="card">
-            <h3>Test Management System</h3>
-            <p>Overview of modules and features available to your institute.</p>
-            <div class="row">
-              <span class="badge green">Automated Grading</span>
-              <span class="badge green">Scheduling</span>
-              <span class="badge green">Question Bank</span>
-              <span class="badge amber">Manual Review</span>
-              <span class="badge green">Analytics</span>
-              <span class="badge green">Proctoring</span>
-            </div>
-            <div style="margin-top:10px" id="featureSummary"></div>
-          </article>
-        </div>
-      </section>
-
-      <section id="users">
-        <div class="section-title">
-          <h2>User Management</h2><small>Roles, registration & login</small>
-        </div>
-        <div class="grid cols-2">
-          <article class="card">
-            <h3>Roles</h3>
-            <div class="grid cols-3">
-              <div class="card stat">
-                <div>Admin</div>
-                <div class="badge">Full access</div>
-              </div>
-              <div class="card stat">
-                <div>Instructor</div>
-                <div class="badge">Create & grade</div>
-              </div>
-              <div class="card stat">
-                <div>Student</div>
-                <div class="badge">Take tests</div>
-              </div>
-            </div>
-            <table id="tblUsers" aria-label="Users table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Role</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-            <div class="row">
-              <button class="btn" id="btnAddUser">+ Add User</button>
-              <button class="btn ghost" id="btnResetUsers">Reset</button>
-            </div>
-          </article>
-          <article class="card">
-            <h3>Registration & Login</h3>
-            <p>Simple prototype to simulate signup and sign-in flows.</p>
-            <div class="tabs" role="tablist">
-              <button class="tab active" data-tab="signup">Registration</button>
-              <button class="tab" data-tab="login">Login</button>
-              <button class="tab" data-tab="recovery">Password Recovery</button>
-            </div>
-            <div id="authPanels">
-              <form class="form" data-panel="signup">
-                <div class="field"><label>Name</label><input required placeholder="Your name"></div>
-                <div class="field"><label>Email</label><input required type="email" placeholder="you@example.com"></div>
-                <div class="field"><label>Role</label>
-                  <select>
-                    <option>Student</option>
-                    <option>Instructor</option>
-                  </select>
+    <div class="app">
+        <header class="top">
+            <div class="brand">
+                <div class="logo">TM</div>
+                <div>
+                    <h1>Test Management — Admin</h1>
+                    <div class="subtitle">Overview of tests, students & results</div>
                 </div>
-                <div class="field"><label>Password</label><input type="password" required placeholder="••••••••"></div>
-                <button class="btn">Create Account</button>
-              </form>
-              <form class="form" data-panel="login" hidden>
-                <div class="field"><label>Email</label><input type="email" required></div>
-                <div class="field"><label>Password</label><input type="password" required></div>
-                <button class="btn">Login</button>
-              </form>
-              <form class="form" data-panel="recovery" hidden>
-                <div class="field"><label>Email</label><input type="email" required></div>
-                <button class="btn">Send Recovery Link</button>
-              </form>
             </div>
-          </article>
-        </div>
-      </section>
-
-      <section id="tests">
-        <div class="section-title">
-          <h2>Test Management</h2><small>Create, schedule & administer</small>
-        </div>
-        <div class="grid cols-2">
-          <article class="card">
-            <h3>Tests</h3>
-            <table id="tblTests">
-              <thead>
-                <tr>
-                  <th>Test</th>
-                  <th>Duration</th>
-                  <th>Format</th>
-                  <th>Assigned</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </article>
-          <article class="card">
-            <h3>Test Scheduling & Administration</h3>
-            <div class="form inline" id="formSchedule">
-              <div class="field"><label>Test</label><select id="schedTest"></select></div>
-              <div class="field"><label>Date & Time</label><input id="schedDT" type="datetime-local"></div>
-              <div class="field"><label>Assign To</label><input id="schedAudience" placeholder="Group A / Student IDs"></div>
-              <div class="field"><label>Reminders</label>
-                <select id="schedReminders">
-                  <option value="none">None</option>
-                  <option value="24h">24 hours before</option>
-                  <option value="1h">1 hour before</option>
-                </select>
-              </div>
-              <button class="btn" id="btnSchedule">Schedule</button>
+            <div class="top-actions">
+                <div class="search"><input id="globalSearch" placeholder="Search tests, students..."
+                        aria-label="Search tests or students"></div>
+                <button class="btn" id="btnCreate">+ Create Test</button>
+                <button class="btn ghost" id="btnExportAll">Export All</button>
             </div>
-            <h3 style="margin-top:14px">Upcoming</h3>
-            <table id="tblSchedules">
-              <thead>
-                <tr>
-                  <th>Test</th>
-                  <th>When</th>
-                  <th>Audience</th>
-                  <th>Reminder</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </article>
-        </div>
-        <div>
-          <main>
-            <div class="stats">
-              <div class="stat-card">
-                <h4>Total Tests</h4>
-                <p id="totalTests">0</p>
-              </div>
-              <div class="stat-card">
-                <h4>Students Attended</h4>
-                <p id="studentsAttended">0</p>
-              </div>
-              <div class="stat-card">
-                <h4>Students Passed</h4>
-                <p id="studentsPassed">0</p>
-              </div>
-            </div>
-          </main>
-        </div>
-      </section>
+        </header>
 
-      <section id="questions">
-        <div class="section-title">
-          <h2>Question Bank Management</h2><small>Types, organization, import</small>
-        </div>
-        <div class="grid cols-2">
-          <article class="card">
-            <h3>Question Bank</h3>
-            <table id="tblQuestions">
-              <thead>
-                <tr>
-                  <th>Type</th>
-                  <th>Topic</th>
-                  <th>Difficulty</th>
-                  <th>Question</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-            <div class="row" style="margin-top:8px">
-              <button class="btn" id="btnAddQuestion">+ Add Question</button>
-              <button class="btn ghost" id="btnImportQuestions">Import JSON</button>
-              <input type="file" id="fileImport" accept="application/json" hidden />
-            </div>
-          </article>
-          <article class="card">
-            <h3>Question Types</h3>
-            <div class="grid cols-3">
-              <div class="card stat">
-                <div>Multiple Choice</div>
-                <div class="badge">Objective</div>
-              </div>
-              <div class="card stat">
-                <div>Essay</div>
-                <div class="badge">Subjective</div>
-              </div>
-              <div class="card stat">
-                <div>True / False</div>
-                <div class="badge">Objective</div>
-              </div>
-              <div class="card stat">
-                <div>File Upload</div>
-                <div class="badge">Artifact</div>
-              </div>
-              <div class="card stat">
-                <div>Code</div>
-                <div class="badge">Run/Test</div>
-              </div>
-              <div class="card stat">
-                <div>Custom</div>
-                <div class="badge">Extensible</div>
-              </div>
-            </div>
-          </article>
-        </div>
-      </section>
+        <main class="main">
+            <!-- Dashboard view -->
+            <section id="view-dashboard">
+                <div class="cards">
+                    <div class="card">
+                        <h3>Total Tests</h3>
+                        <div class="stat" id="statTests">0</div>
+                        <p class="small">Active & archived tests</p>
+                    </div>
+                    <div class="card">
+                        <h3>Active Students</h3>
+                        <div class="stat" id="statStudents">0</div>
+                        <p class="small">Enrolled students</p>
+                    </div>
+                    <div class="card">
+                        <h3>Submissions</h3>
+                        <div class="stat" id="statSubmits">0</div>
+                        <p class="small">Submitted attempts today</p>
+                    </div>
+                    <div class="card">
+                        <h3>Reports</h3>
+                        <div class="stat" id="statReports">0</div>
+                        <p class="small">Generated reports</p>
+                    </div>
+                </div>
 
-      <section id="grading">
-        <div class="section-title">
-          <h2>Grading & Feedback</h2><small>Automated & manual review</small>
-        </div>
-        <div class="grid cols-2">
-          <article class="card">
-            <h3>Automated Grading</h3>
-            <p>Auto-grades objective items. Results appear instantly after submission.</p>
-            <div class="badge green">Enabled</div>
-            <table id="tblAutoGrades" style="margin-top:10px">
-              <thead>
-                <tr>
-                  <th>Student</th>
-                  <th>Test</th>
-                  <th>Score</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </article>
-          <article class="card">
-            <h3>Manual Grading</h3>
-            <p>Review essays and file uploads. Leave rubric-based feedback.</p>
-            <table id="tblManualQueue">
-              <thead>
-                <tr>
-                  <th>Submission</th>
-                  <th>Learner</th>
-                  <th>Needs Review</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </article>
-        </div>
-        <article class="card" style="margin-top:12px">
-          <h3>Feedback Center</h3>
-          <div class="form inline">
-            <div class="field"><label>Student</label><input id="fbStudent" placeholder="Name or ID"></div>
-            <div class="field"><label>Test</label><input id="fbTest" placeholder="Test title"></div>
-            <div class="field" style="grid-column:1/-1"><label>Feedback</label><textarea id="fbText" placeholder="Write constructive comments…"></textarea></div>
-          </div>
-          <div class="row" style="margin-top:8px"><button class="btn" id="btnSendFeedback">Send Feedback</button><span class="badge sent" id="fbStatus" hidden>Sent ✓</span></div>
-        </article>
-      </section>
+                <div class="panel">
+                    <div class="card large">
+                        <div style="display:flex;justify-content:space-between;align-items:center">
+                            <h3 style="margin:0">Performance Trend</h3>
+                            <div class="small">Last 6 tests</div>
+                        </div>
+                        <div class="chart-wrap"><canvas id="trendChart"></canvas></div>
+                    </div>
 
-      <section id="progress">
-        <div class="section-title">
-          <h2>Student Progress & Analytics</h2><small>Results, tracking & analysis</small>
-        </div>
-        <div class="grid cols-2">
-          <article class="card">
-            <h3>Recent Results</h3>
-            <table id="tblResults">
-              <thead>
-                <tr>
-                  <th>Student</th>
-                  <th>Test</th>
-                  <th>Score</th>
-                  <th>Feedback</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </article>
-          <article class="card">
-            <h3>Performance Overview</h3>
-            <p style="margin-bottom:6px">Average scores by topic (sample data)</p>
-            <figure aria-labelledby="chartTitle">
-              <figcaption id="chartTitle" class="sr-only">Bar chart showing average scores by topic</figcaption>
-              <canvas id="performanceChart" style="max-height: 300px; height: 300px;"></canvas>
-            </figure>
-          </article>
-        </div>
-      </section>
+                    <div class="card">
+                        <h3 style="margin-bottom:8px">Score Distribution</h3>
+                        <div class="chart-wrap"><canvas id="pieChart"></canvas></div>
+                        <div style="display:flex;gap:8px;margin-top:10px;justify-content:space-between">
+                            <div class="small">Pass: <strong id="passPct">0%</strong></div>
+                            <div class="small">Fail: <strong id="failPct">0%</strong></div>
+                        </div>
+                    </div>
+                </div>
 
-      <section id="security">
-        <div class="section-title">
-          <h2>Security & Integrity</h2><small>Proctoring, lockdown, anti-cheat</small>
-        </div>
-        <div class="grid cols-3">
-          <article class="card">
-            <h3>Test Security</h3>
-            <div class="field"><label><input type="checkbox" id="optProctor" checked> Enable Proctoring Tools</label></div>
-            <div class="field"><label><input type="checkbox" id="optLockdown"> Browser Lockdown</label></div>
-            <div class="field"><label><input type="checkbox" id="opt2FA" checked> 2FA on Login</label></div>
-            <div class="badge amber" id="securityStatus">Baseline secure</div>
-          </article>
-          <article class="card">
-            <h3>Cheating Prevention</h3>
-            <div class="field"><label><input type="checkbox" id="optPlagiarism" checked> Plagiarism Detection</label></div>
-            <div class="field"><label><input type="checkbox" id="optSuspect"> Suspicious Activity Monitor</label></div>
-            <div class="field"><label><input type="checkbox" id="optIPLimit"> IP / Device Limits</label></div>
-          </article>
-          <article class="card">
-            <h3>Audit & Logs</h3>
-            <p>Export audit logs for compliance reviews.</p>
-            <button class="btn" id="btnExportAudit">Export Logs</button>
-          </article>
-        </div>
-      </section>
+                <div class="card results-panel">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                        <h3 style="margin:0">Recent Results</h3>
+                        <div class="controls">
+                            <input id="tableSearch" placeholder="Search table"
+                                style="padding:8px;border-radius:8px;border:1px solid var(--border);min-height:44px"
+                                aria-label="Search results table">
+                            <button class="btn" id="btnExportPDF">Export PDF</button>
+                            <button class="btn" id="btnExportXLS">Export Excel</button>
+                            <button class="btn ghost" id="btnPrintTable">Print Table</button>
+                        </div>
+                    </div>
 
-      <section id="communication">
-        <div class="section-title">
-          <h2>Communication</h2><small>Notifications & support</small>
-        </div>
-        <div class="grid cols-2">
-          <article class="card">
-            <h3>Notifications</h3>
-            <div class="form inline">
-              <div class="field"><label>To</label><input id="notifyTo" placeholder="Students / Instructors"></div>
-              <div class="field"><label>Message</label><input id="notifyMsg" placeholder="Reminder: Test starts at 10:00"></div>
-              <button class="btn" id="btnNotify">Send</button>
-            </div>
-            <table id="tblNotifications" style="margin-top:10px">
-              <thead>
-                <tr>
-                  <th>When</th>
-                  <th>Audience</th>
-                  <th>Message</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </article>
-          <article class="card">
-            <h3>Support</h3>
-            <p>Provide resources & FAQs for test preparation and anxiety reduction.</p>
-            <ul>
-              <li class="badge">Breathing exercise (4-7-8)</li>
-              <li class="badge">Time management tips</li>
-              <li class="badge">Tech check: camera, mic, ID</li>
-            </ul>
-          </article>
-        </div>
-      </section>
+                    <div class="table-wrap">
+                        <table id="resultsTable">
+                            <thead>
+                                <tr>
+                                    <th data-key="name">Student</th>
+                                    <th data-key="test">Test</th>
+                                    <th data-key="score">Score</th>
+                                    <th data-key="status">Status</th>
+                                    <th data-key="date">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
 
-      <section id="reports">
-        <div class="section-title">
-          <h2>Reporting & Insights</h2><small>Generate and analyze reports</small>
-        </div>
-        <div class="grid cols-2">
-          <article class="card">
-            <h3>Test Reports</h3>
-            <p>Create downloadable reports for performance and trends.</p>
-            <button class="btn" id="btnGenReport">Generate Report (JSON)</button>
-            <table id="tblReportPreview" style="margin-top:10px">
-              <thead>
-                <tr>
-                  <th>Metric</th>
-                  <th>Value</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </article>
-          <article class="card">
-            <h3>Student Insights</h3>
-            <p>Identify strengths & weaknesses to inform instruction.</p>
-            <div id="insights" class="grid cols-3"></div>
-          </article>
-        </div>
-      </section>
+            <!-- Placeholder views -->
+            <section id="view-tests" style="display:none" class="card">
+                <h3>Tests</h3>
+                <p class="small">Create, edit and schedule tests here. (UI placeholders)</p>
+            </section>
 
-      <section id="integration">
-        <div class="section-title">
-          <h2>Integration & Compatibility</h2><small>LMS & device support</small>
-        </div>
-        <div class="grid cols-3">
-          <article class="card">
-            <h3>LMS Integration</h3>
-            <p>Simulated connectors for LMS (Moodle, Canvas, Google Classroom).</p>
-            <div class="row">
-              <button class="btn">Connect Moodle</button>
-              <button class="btn">Connect Canvas</button>
-              <button class="btn">Connect Classroom</button>
-            </div>
-          </article>
-          <article class="card">
-            <h3>Device Compatibility</h3>
-            <p>Responsive across desktop, tablet and mobile.</p>
-            <div class="row">
-              <span class="badge">Chrome</span>
-              <span class="badge">Firefox</span>
-              <span class="badge">Safari</span>
-              <span class="badge">Edge</span>
-            </div>
-          </article>
-          <article class="card">
-            <h3>Mobile Support</h3>
-            <p>Touch-friendly controls & layouts.</p>
-            <div class="badge green">Optimized</div>
-          </article>
-        </div>
-      </section>
+            <section id="view-questions" style="display:none" class="card">
+                <h3>Question Bank</h3>
+                <p class="small">Manage your question bank (MCQ, Essay, Code).</p>
+            </section>
 
-      <section id="settings">
-        <div class="section-title">
-          <h2>Customization & Settings</h2><small>Institute & test defaults</small>
-        </div>
-        <div class="grid cols-2">
-          <article class="card">
-            <h3>Test Customization</h3>
-            <div class="form">
-              <div class="field"><label>Default Duration (minutes)</label><input id="defDuration" type="number" value="60"></div>
-              <div class="field"><label>Default Format</label>
-                <select id="defFormat">
-                  <option>Mixed</option>
-                  <option>MCQ Only</option>
-                  <option>Essay Only</option>
-                </select>
-              </div>
-              <div class="field"><label><input id="shuffleQuestions" type="checkbox" checked> Shuffle Questions</label></div>
-              <button class="btn" id="btnSaveDefaults">Save Defaults</button>
-            </div>
-          </article>
-          <article class="card">
-            <h3>Institute Settings</h3>
-            <div class="form">
-              <div class="field"><label>Time Zone</label><input id="tz" value="Asia/Kolkata (IST)"></div>
-              <div class="field"><label>Grace Time (min)</label><input id="grace" type="number" value="5"></div>
-              <div class="field"><label><input id="darkMode" type="checkbox" checked> Dark Mode</label></div>
-              <button class="btn" id="btnSaveInstituteSettings">Save Institute Settings</button>
-            </div>
-          </article>
-        </div>
-      </section>
-    </main>
+            <section id="view-users" style="display:none" class="card">
+                <h3>Users</h3>
+                <p class="small">Add or remove users, assign roles.</p>
+            </section>
 
-    <footer>
-      © <span id="year"></span> Test Management Institute •--Hemant Yadav--•
-    </footer>
-  </section>
+            <section id="view-results" style="display:none" class="card">
+                <h3>Results</h3>
+                <p class="small">Comprehensive results & filtering tools.</p>
+            </section>
 
-  <dialog id="modalTest">
-    <div class="modal-header"><strong>Create Test</strong><button class="btn" onclick="modalTest.close()">Close</button></div>
-    <div class="modal-body">
-      <form class="form" id="formTest">
-        <div class="field"><label>Title</label><input id="testTitle" required placeholder="Midterm Mathematics"></div>
-        <div class="field"><label>Duration (min)</label><input id="testDuration" type="number" value="60"></div>
-        <div class="field"><label>Format</label>
-          <select id="testFormat">
-            <option>Mixed</option>
-            <option>MCQ</option>
-            <option>Essay</option>
-            <option>True/False</option>
-            <option>File Upload</option>
-          </select>
-        </div>
-        <div class="field"><label>Instructions</label><textarea id="testInstructions" placeholder="Read all questions carefully…"></textarea></div>
-        <button class="btn primary" type="submit">Save Test</button>
-      </form>
+            <section id="view-reports" style="display:none" class="card">
+                <h3>Reports</h3>
+                <p class="small">Generate and download reports.</p>
+            </section>
+
+            <section id="view-security" style="display:none" class="card">
+                <h3>Security</h3>
+                <p class="small">Settings: proctoring, lockdown, 2FA.</p>
+            </section>
+
+            <section id="view-communication" style="display:none" class="card">
+                <h3>Communication</h3>
+                <p class="small">Messages, notifications & support.</p>
+            </section>
+        </main>
+
+        <footer>© <span id="year"></span> Test Management</footer>
     </div>
-  </dialog>
 
-  <dialog id="modalUser">
-    <div class="modal-header"><strong>Add User</strong><button class="btn" onclick="modalUser.close()">Close</button></div>
-    <div class="modal-body">
-      <form class="form" id="formUser">
-        <div class="field"><label>Name</label><input id="userName" required></div>
-        <div class="field"><label>Email</label><input id="userEmail" type="email" required></div>
-        <div class="field"><label>Role</label><select id="userRole">
-            <option>Student</option>
-            <option>Instructor</option>
-            <option>Admin</option>
-          </select></div>
-        <button class="btn primary">Add</button>
-      </form>
-    </div>
-  </dialog>
-
-  <dialog id="modalQuestion">
-    <div class="modal-header"><strong>Add Question</strong><button class="btn" onclick="modalQuestion.close()">Close</button></div>
-    <div class="modal-body">
-      <form class="form" id="formQuestion">
-        <div class="field"><label>Type</label><select id="qType">
-            <option>Multiple-choice</option>
-            <option>Essay</option>
-            <option>True/False</option>
-            <option>File upload</option>
-          </select></div>
-        <div class="field"><label>Topic</label><input id="qTopic" placeholder="Algebra"></div>
-        <div class="field"><label>Difficulty</label><select id="qDiff">
-            <option>Easy</option>
-            <option>Medium</option>
-            <option>Hard</option>
-          </select></div>
-        <div class="field"><label>Question</label><textarea id="qText" placeholder="Write your question here…"></textarea></div>
-        <button class="btn primary">Save Question</button>
-      </form>
-    </div>
-  </dialog>
-
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
-  <script src="test-management.js">
-    
-  </script>
-  
+    <script src="../assets/js/test-management.js">
+        // --- sample demo data ---
+       
+    </script>
 </body>
+
 </html>

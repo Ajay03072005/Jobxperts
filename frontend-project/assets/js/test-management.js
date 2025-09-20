@@ -1,247 +1,160 @@
-document.addEventListener('DOMContentLoaded', () => {
-      // Set current year in footer
-      document.getElementById('year').textContent = new Date().getFullYear();
+ const demo = {
+            tests: [
+                { id: 1, title: 'Math Midterm' },
+                { id: 2, title: 'Physics Quiz' },
+                { id: 3, title: 'Chemistry Final' },
+                { id: 4, title: 'English Grammar' },
+                { id: 5, title: 'Computer Science Lab' },
+                { id: 6, title: 'History Term' }
+            ],
+            students: [
+                'John Doe', 'Jane Smith', 'Arjun Patel', 'Fatima Khan', 'Liu Wei', 'Maria Garcia', 'Carlos Ruiz', 'Sara Lee'
+            ],
+            results: []
+        };
 
-      // Demo data
-      const demoData = {
-        users: [
-          { name: 'John Doe', email: 'john@example.com', role: 'Student', status: 'Active' },
-          { name: 'Jane Smith', email: 'jane@example.com', role: 'Instructor', status: 'Active' },
-          { name: 'Admin User', email: 'admin@example.com', role: 'Admin', status: 'Active' }
-        ],
-        tests: [
-          { title: 'Math Midterm', duration: '60', format: 'MCQ', assigned: 'Group A', action: 'Edit' },
-          { title: 'Physics Quiz', duration: '30', format: 'Essay', assigned: 'Group B', action: 'Edit' }
-        ],
-        schedules: [
-          { test: 'Math Midterm', when: '2025-09-15T10:00', audience: 'Group A', reminder: '24h' }
-        ],
-        questions: [
-          { type: 'Multiple-choice', topic: 'Algebra', difficulty: 'Medium', question: 'Solve for x: 2x + 3 = 7' },
-          { type: 'Essay', topic: 'Physics', difficulty: 'Hard', question: 'Explain Newton’s laws' }
-        ],
-        autoGrades: [
-          { student: 'John Doe', test: 'Math Midterm', score: '85', status: 'Graded' }
-        ],
-        manualQueue: [
-          { submission: 'Essay #1', learner: 'John Doe', needsReview: 'Yes', action: 'Review' }
-        ],
-        results: [
-          { student: 'John Doe', test: 'Math Midterm', score: '85', feedback: 'Good work!' }
-        ],
-        notifications: [
-          { when: '2025-09-10 13:08', audience: 'All Students', message: 'Test starts at 10:00' }
-        ],
-        reportPreview: [
-          { metric: 'Average Score', value: '82%' },
-          { metric: 'Completion Rate', value: '95%' }
-        ]
-      };
-
-      // Load demo data
-      document.getElementById('btnDemoData').addEventListener('click', () => {
-        // Populate users table
-        const usersTable = document.querySelector('#tblUsers tbody');
-        usersTable.innerHTML = demoData.users.map(user => `
-          <tr>
-            <td>${user.name}</td>
-            <td>${user.email}</td>
-            <td>${user.role}</td>
-            <td>${user.status}</td>
-          </tr>
-        `).join('');
-
-        // Populate tests table
-        const testsTable = document.querySelector('#tblTests tbody');
-        testsTable.innerHTML = demoData.tests.map(test => `
-          <tr>
-            <td>${test.title}</td>
-            <td>${test.duration} min</td>
-            <td>${test.format}</td>
-            <td>${test.assigned}</td>
-            <td><button class="btn">${test.action}</button></td>
-          </tr>
-        `).join('');
-
-        // Populate schedules table
-        const schedulesTable = document.querySelector('#tblSchedules tbody');
-        schedulesTable.innerHTML = demoData.schedules.map(schedule => `
-          <tr>
-            <td>${schedule.test}</td>
-            <td>${schedule.when}</td>
-            <td>${schedule.audience}</td>
-            <td>${schedule.reminder}</td>
-          </tr>
-        `).join('');
-
-        // Populate questions table
-        const questionsTable = document.querySelector('#tblQuestions tbody');
-        questionsTable.innerHTML = demoData.questions.map(q => `
-          <tr>
-            <td>${q.type}</td>
-            <td>${q.topic}</td>
-            <td>${q.difficulty}</td>
-            <td>${q.question}</td>
-          </tr>
-        `).join('');
-
-        // Populate auto grades table
-        const autoGradesTable = document.querySelector('#tblAutoGrades tbody');
-        autoGradesTable.innerHTML = demoData.autoGrades.map(grade => `
-          <tr>
-            <td>${grade.student}</td>
-            <td>${grade.test}</td>
-            <td>${grade.score}</td>
-            <td>${grade.status}</td>
-          </tr>
-        `).join('');
-
-        // Populate manual queue table
-        const manualQueueTable = document.querySelector('#tblManualQueue tbody');
-        manualQueueTable.innerHTML = demoData.manualQueue.map(item => `
-          <tr>
-            <td>${item.submission}</td>
-            <td>${item.learner}</td>
-            <td>${item.needsReview}</td>
-            <td><button class="btn">${item.action}</button></td>
-          </tr>
-        `).join('');
-
-        // Populate results table
-        const resultsTable = document.querySelector('#tblResults tbody');
-        resultsTable.innerHTML = demoData.results.map(result => `
-          <tr>
-            <td>${result.student}</td>
-            <td>${result.test}</td>
-            <td>${result.score}</td>
-            <td>${result.feedback}</td>
-          </tr>
-        `).join('');
-
-        // Populate notifications table
-        const notificationsTable = document.querySelector('#tblNotifications tbody');
-        notificationsTable.innerHTML = demoData.notifications.map(note => `
-          <tr>
-            <td>${note.when}</td>
-            <td>${note.audience}</td>
-            <td>${note.message}</td>
-          </tr>
-        `).join('');
-
-        // Populate report preview table
-        const reportPreviewTable = document.querySelector('#tblReportPreview tbody');
-        reportPreviewTable.innerHTML = demoData.reportPreview.map(report => `
-          <tr>
-            <td>${report.metric}</td>
-            <td>${report.value}</td>
-          </tr>
-        `).join('');
-
-        // Update stats
-        document.getElementById('totalTests').textContent = demoData.tests.length;
-        document.getElementById('studentsAttended').textContent = demoData.results.length;
-        document.getElementById('studentsPassed').textContent = demoData.results.filter(r => parseInt(r.score) >= 50).length;
-
-        // Update feature summary
-        document.getElementById('featureSummary').textContent = `Active features: ${document.querySelectorAll('.badge.green').length} enabled, 1 pending.`;
-
-        alert('Demo data loaded!');
-      });
-
-      // Initialize chart on page load
-      const ctx = document.getElementById('performanceChart').getContext('2d');
-      new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: ["Algebra", "Geometry", "Physics"],
-          datasets: [{
-            label: "Average Score (%)",
-            data: [85, 78, 92],
-            backgroundColor: ["#007bff", "#28a745", "#ffc107"],
-            borderColor: ["#0056b3", "#218838", "#e0a800"],
-            borderWidth: 1
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            y: {
-              beginAtZero: true,
-              max: 100,
-              title: {
-                display: true,
-                text: "Score (%)"
-              }
-            },
-            x: {
-              title: {
-                display: true,
-                text: "Topics"
-              }
+        // generate random results
+        (function genResults() {
+            const now = Date.now();
+            for (let i = 0; i < 30; i++) {
+                const s = demo.students[Math.floor(Math.random() * demo.students.length)];
+                const t = demo.tests[Math.floor(Math.random() * demo.tests.length)];
+                const score = Math.floor(40 + Math.random() * 61); // 40-100
+                const status = score >= 50 ? 'Pass' : 'Fail';
+                const date = new Date(now - Math.floor(Math.random() * 20) * 24 * 3600 * 1000).toISOString().slice(0, 10);
+                demo.results.push({ student: s, test: t.title, score, status, date });
             }
-          },
-          plugins: {
-            legend: {
-              position: "top"
-            },
-            tooltip: {
-              enabled: true
-            }
-          }
-        }
-      });
+        })();
 
-      // Tab switching
-      document.querySelectorAll('.tab').forEach(tab => {
-        tab.addEventListener('click', () => {
-          document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-          tab.classList.add('active');
-          document.querySelectorAll('#authPanels [data-panel]').forEach(panel => {
-            panel.hidden = panel.dataset.panel !== tab.dataset.tab;
-          });
+        // --- populate stats ---
+        document.getElementById('statTests').textContent = demo.tests.length;
+        document.getElementById('statStudents').textContent = demo.students.length;
+        document.getElementById('statSubmits').textContent = demo.results.length;
+        document.getElementById('statReports').textContent = Math.floor(demo.results.length / 5);
+
+        // --- charts ---
+        const trendCtx = document.getElementById('trendChart').getContext('2d');
+        const trendLabels = demo.tests.map(t => t.title);
+        const trendData = demo.tests.map(() => Math.floor(60 + Math.random() * 30));
+        new Chart(trendCtx, {
+            type: 'line',
+            data: { labels: trendLabels, datasets: [{ label: 'Average Score', data: trendData, fill: true, backgroundColor: 'rgba(37,99,235,0.12)', borderColor: 'rgba(37,99,235,0.9)', tension: 0.35 }] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, max: 100 } } }
         });
-      });
 
-      // Modals
-      document.getElementById('btnNewTest').addEventListener('click', () => document.getElementById('modalTest').showModal());
-      document.getElementById('btnAddUser').addEventListener('click', () => document.getElementById('modalUser').showModal());
-      document.getElementById('btnAddQuestion').addEventListener('click', () => document.getElementById('modalQuestion').showModal());
+        const pieCtx = document.getElementById('pieChart').getContext('2d');
+        const passCount = demo.results.filter(r => r.status === 'Pass').length;
+        const failCount = demo.results.length - passCount;
+        new Chart(pieCtx, {
+            type: 'doughnut',
+            data: { labels: ['Pass', 'Fail'], datasets: [{ data: [passCount, failCount], backgroundColor: ['#22c55e', '#ef4444'] }] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+        });
+        const passPct = Math.round((passCount / demo.results.length) * 100);
+        document.getElementById('passPct').textContent = passPct + '%';
+        document.getElementById('failPct').textContent = (100 - passPct) + '%';
 
-      // Form submissions
-      document.getElementById('formInstitute').addEventListener('submit', (e) => {
-        e.preventDefault();
-        alert('Profile saved!');
-      });
+        // --- results table ---
+        const tbody = document.querySelector('#resultsTable tbody');
+        function renderTable(rows) {
+            tbody.innerHTML = rows.map(r => `<tr><td>${r.student}</td><td>${r.test}</td><td>${r.score}</td><td><span class="badge ${r.status === 'Pass' ? 'pass' : 'fail'}">${r.status}</span></td><td>${r.date}</td></tr>`).join('');
+        }
+        renderTable(demo.results);
 
-      document.getElementById('formAbout').addEventListener('submit', (e) => {
-        e.preventDefault();
-        alert('About section saved!');
-      });
+        // --- sorting ---
+        const getCell = (row, key) => {
+            if (key === 'score') return parseInt(row.score);
+            if (key === 'date') return row.date;
+            return row[key].toLowerCase();
+        };
+        document.querySelectorAll('#resultsTable thead th').forEach(th => {
+            th.addEventListener('click', () => {
+                const key = th.dataset.key;
+                const asc = th.dataset.asc !== 'true';
+                demo.results.sort((a, b) => {
+                    const A = getCell(a, key);
+                    const B = getCell(b, key);
+                    if (A < B) return asc ? -1 : 1;
+                    if (A > B) return asc ? 1 : -1;
+                    return 0;
+                });
+                document.querySelectorAll('#resultsTable thead th').forEach(x => x.dataset.asc = '');
+                th.dataset.asc = asc;
+                renderTable(demo.results);
+            });
+            th.addEventListener('touchstart', e => {
+                e.preventDefault();
+                th.click();
+            }, { passive: false });
+        });
 
-      document.getElementById('formTest').addEventListener('submit', (e) => {
-        e.preventDefault();
-        alert('Test created!');
-        document.getElementById('modalTest').close();
-      });
+        // --- table search/filter ---
+        document.getElementById('tableSearch').addEventListener('input', (e) => {
+            const q = e.target.value.trim().toLowerCase();
+            const filtered = demo.results.filter(r => [r.student, r.test, r.status, r.date + '', r.score + ''].some(v => String(v).toLowerCase().includes(q)));
+            renderTable(filtered);
+        });
 
-      document.getElementById('formUser').addEventListener('submit', (e) => {
-        e.preventDefault();
-        alert('User added!');
-        document.getElementById('modalUser').close();
-      });
+        // global search navigates to dashboard view and filters table
+        document.getElementById('globalSearch').addEventListener('input', (e) => {
+            const q = e.target.value.trim();
+            if (q.length > 0) { showView('dashboard'); document.getElementById('tableSearch').value = q; document.getElementById('tableSearch').dispatchEvent(new Event('input')); }
+            else { document.getElementById('tableSearch').value = ''; renderTable(demo.results); }
+        });
 
-      document.getElementById('formQuestion').addEventListener('submit', (e) => {
-        e.preventDefault();
-        alert('Question saved!');
-        document.getElementById('modalQuestion').close();
-      });
+        // --- export PDF (jsPDF) ---
+        document.getElementById('btnExportPDF').addEventListener('click', async () => {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({ orientation: 'landscape' });
+            doc.setFontSize(14); doc.text('Recent Results', 14, 14);
+            const rows = demo.results.map(r => [r.student, r.test, String(r.score), r.status, r.date]);
+            doc.autoTable({ head: [['Student', 'Test', 'Score', 'Status', 'Date']], body: rows, startY: 20 });
+            doc.save('results.pdf');
+        });
 
-      document.getElementById('btnSendFeedback').addEventListener('click', () => {
-        const fbStatus = document.getElementById('fbStatus');
-        fbStatus.hidden = false;
-        setTimeout(() => {
-          fbStatus.hidden = true;
-        }, 2000);
-      });
-    });
+        // --- export Excel (SheetJS) ---
+        document.getElementById('btnExportXLS').addEventListener('click', () => {
+            const ws = XLSX.utils.json_to_sheet(demo.results);
+            const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, 'Results');
+            XLSX.writeFile(wb, 'results.xlsx');
+        });
+
+        // --- print table ---
+        document.getElementById('btnPrintTable').addEventListener('click', () => {
+            const html = `<html><head><title>Results</title><style>table{width:100%;border-collapse:collapse}th,td{border:1px solid #ddd;padding:8px;text-align:left}</style></head><body><h3>Recent Results</h3>${document.querySelector('.table-wrap').innerHTML}</body></html>`;
+            const w = window.open('', '_blank'); w.document.write(html); w.document.close(); w.focus(); w.print();
+        });
+
+        // --- export all ---
+        document.getElementById('btnExportAll').addEventListener('click', () => {
+            const payload = { tests: demo.tests, students: demo.students, results: demo.results };
+            const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'tm-data.json'; a.click(); URL.revokeObjectURL(url);
+        });
+
+        // --- view navigation ---
+        function showView(v) {
+            document.querySelectorAll('main section').forEach(s => s.style.display = s.id === 'view-' + v ? '' : s.id.startsWith('view-') ? 'none' : s.style.display);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- create test button (placeholder) ---
+        document.getElementById('btnCreate').addEventListener('click', () => { alert('Create Test — open form (placeholder)'); });
+
+        // --- populate year ---
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // --- touch support ---
+        document.querySelectorAll('.btn').forEach(el => {
+            el.addEventListener('touchstart', e => {
+                e.preventDefault();
+                el.click();
+            }, { passive: false });
+        });
+
+        // --- smooth scrolling ---
+        document.body.style.overflowX = 'hidden';
+        document.body.style.touchAction = 'pan-y';
+
+        // show dashboard by default
+        showView('dashboard');

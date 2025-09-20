@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Results & Rankings</title>
+    <link rel="stylesheet" href="../assets/css/results.css">
+</head>
+
+<body>
+    <main class="results-container">
+        <h1>Results & Rankings</h1>
+        <p><b>Teacher:</b> Sumit Choudhary</p>
+        <!--controls-->
+        <div class="controls">
+            <button id="publishBtn" class="btn-primary">Publish Results</button>
+            <select class="dropdown" id="viewSelect">
+                <option value="global">Global Rankings</option>
+                <option value="institute">Institute-wise Rankings</option>
+            </select>
+            <select class="dropdown" id="instituteSelect" style="display:none"></select>
+            <button id="exportBtn" class="btn-secondary">Export to CSV</button>
+        </div>
+        <!--Rankings table-->
+        <table id="rankTable">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Student</th>
+                    <th>Institute</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="4">Results not published yet.</td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+    <script src="../assets/js/results.js"></script>
+</body>
+</html>

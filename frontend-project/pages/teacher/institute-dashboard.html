@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Institute Dashboard - JobsXperts</title>
+    <link rel="stylesheet" href="../../assets/css/navbar.css">
+    <link rel="stylesheet" href="../../assets/css/institute-dash.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f6f8fb;
+            margin: 0;
+            padding: 0;
+        }
+
+        .dashboard-wrapper {
+            display: block;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        .main-content {
+            margin-left: 260px;
+            padding: 40px 48px;
+            overflow-x: hidden;
+            max-width: calc(100vw - 260px);
+            min-height: 100vh;
+        }
+
+        .header-card {
+            background: linear-gradient(90deg, #1976d2 0%, #21cb7a 100%);
+            color: #fff;
+            border-radius: 24px;
+            padding: 40px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 24px rgba(25, 118, 210, 0.10);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-card h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .header-card p {
+            margin: 0;
+            font-size: 1.1rem;
+            opacity: 0.97;
+            font-weight: 500;
+            letter-spacing: 0.1px;
+        }
+
+        .progress-circle {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            font-size: 2rem;
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(25, 118, 210, 0.10);
+        }
+
+        .progress-label {
+            font-size: 1rem;
+            font-weight: 400;
+            margin-top: 4px;
+            opacity: 0.9;
+        }
+
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .summary-card {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 2px 12px rgba(25, 118, 210, 0.07);
+            padding: 28px 32px 24px 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            position: relative;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(25, 118, 210, 0.15);
+        }
+
+        .summary-icon {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(25, 118, 210, 0.07);
+        }
+
+        .summary-title {
+            color: #888;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .summary-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1976d2;
+            margin-bottom: 4px;
+        }
+
+        .summary-desc {
+            color: #888;
+            font-size: 0.95rem;
+        }
+
+        .main-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 32px;
+            margin-bottom: 32px;
+        }
+
+        .section {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 2px 12px rgba(25, 118, 210, 0.07);
+            padding: 32px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #333;
+            margin: 0;
+        }
+
+        .view-all {
+            background: #e3f2fd;
+            color: #1976d2;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .view-all:hover {
+            background: #1976d2;
+            color: #fff;
+        }
+
+        .teacher-card, .test-card {
+            background: #f8f9ff;
+            border: 1px solid #e8eaff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: all 0.2s ease;
+        }
+
+        .teacher-card:hover, .test-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(25, 118, 210, 0.1);
+        }
+
+        .teacher-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .teacher-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .teacher-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 2px;
+        }
+
+        .teacher-role {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .teacher-stats {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+
+        .stat-item {
+            background: #fff;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            text-align: center;
+            min-width: 70px;
+        }
+
+        .stat-number {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1976d2;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: #666;
+        }
+
+        .teacher-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.8rem;
+        }
+
+        .btn-primary-small {
+            background: linear-gradient(90deg, #1976d2 0%, #21cb7a 100%);
+            color: #fff;
+        }
+
+        .btn-secondary-small {
+            background: #f5f5f5;
+            color: #666;
+            border: 1px solid #e0e0e0;
+        }
+
+        .btn-secondary-small:hover {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .test-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .test-meta {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+        }
+
+        .performance-chart {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 2px 12px rgba(25, 118, 210, 0.07);
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+
+        .chart-placeholder {
+            height: 200px;
+            background: linear-gradient(90deg, #e3f2fd 0%, #e8f5e8 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .quick-actions {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 2px 12px rgba(25, 118, 210, 0.07);
+            padding: 32px;
+        }
+
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 16px;
+        }
+
+        .action-btn {
+            background: #f8f9ff;
+            border: 1px solid #e8eaff;
+            border-radius: 12px;
+            padding: 20px 16px;
+            text-align: center;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .action-btn:hover {
+            background: #e3f2fd;
+            border-color: #1976d2;
+            transform: translateY(-2px);
+        }
+
+        .action-btn svg {
+            width: 24px;
+            height: 24px;
+            stroke: #1976d2;
+        }
+
+        .action-label {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                margin-left: 0;
+                max-width: 100vw;
+                padding: 20px 24px;
+            }
+
+            .main-row {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .summary-cards {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="navbar-container"></div>
+    
+    <div class="dashboard-wrapper">
+        <main class="main-content">
+            <!-- Header -->
+            <div class="header-card">
+                <div class="header-text">
+                    <h1>Institute Dashboard</h1>
+                    <p>Manage your institute operations, teachers, and student performance</p>
+                </div>
+                <div class="progress-circle">
+                    <span>24</span>
+                    <div class="progress-label">Teachers</div>
+                </div>
+            </div>
+
+            <!-- Summary Cards -->
+            <div class="summary-cards">
+                <div class="summary-card">
+                    <div class="summary-content">
+                        <div class="summary-title">TOTAL TEACHERS</div>
+                        <div class="summary-value">24</div>
+                        <div class="summary-desc">Active faculty</div>
+                    </div>
+                    <span class="summary-icon" style="background:#e3f0ff;color:#1976d2;">
+                        <svg width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2"/>
+                            <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </span>
+                </div>
+                
+                <div class="summary-card">
+                    <div class="summary-content">
+                        <div class="summary-title">TOTAL STUDENTS</div>
+                        <div class="summary-value">1,250</div>
+                        <div class="summary-desc">Enrolled students</div>
+                    </div>
+                    <span class="summary-icon" style="background:#e6f9f0;color:#21cb7a;">
+                        <svg width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2"/>
+                            <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87" stroke="currentColor" stroke-width="2"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </span>
+                </div>
+                
+                <div class="summary-card">
+                    <div class="summary-content">
+                        <div class="summary-title">ACTIVE TESTS</div>
+                        <div class="summary-value">12</div>
+                        <div class="summary-desc">Running tests</div>
+                    </div>
+                    <span class="summary-icon" style="background:#f3f0ff;color:#7c4dff;">
+                        <svg width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" stroke-width="2"/>
+                            <polyline points="14,2 14,8 20,8" stroke="currentColor" stroke-width="2"/>
+                            <line x1="16" y1="13" x2="8" y2="13" stroke="currentColor" stroke-width="2"/>
+                            <line x1="16" y1="17" x2="8" y2="17" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </span>
+                </div>
+                
+                <div class="summary-card">
+                    <div class="summary-content">
+                        <div class="summary-title">AVERAGE SCORE</div>
+                        <div class="summary-value">82%</div>
+                        <div class="summary-desc" style="color:#21cb7a;font-weight:500;">↑ 3% from last month</div>
+                    </div>
+                    <span class="summary-icon" style="background:#fff4e3;color:#ff9800;">
+                        <svg width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <line x1="12" y1="20" x2="12" y2="10" stroke="currentColor" stroke-width="2"/>
+                            <line x1="18" y1="20" x2="18" y2="4" stroke="currentColor" stroke-width="2"/>
+                            <line x1="6" y1="20" x2="6" y2="16" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Main Row -->
+            <div class="main-row">
+                <!-- Teacher Management -->
+                <section class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">Teacher Management</h2>
+                        <button class="view-all">+ Add Teacher</button>
+                    </div>
+                    
+                    <div class="teacher-card">
+                        <div class="teacher-info">
+                            <img src="https://ui-avatars.com/api/?name=Sarah+Wilson&background=1976d2&color=fff" alt="Avatar" class="teacher-avatar">
+                            <div>
+                                <div class="teacher-name">Dr. Sarah Wilson</div>
+                                <div class="teacher-role">Computer Science</div>
+                            </div>
+                        </div>
+                        <div class="teacher-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">15</div>
+                                <div class="stat-label">Tests</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">45</div>
+                                <div class="stat-label">Students</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">89%</div>
+                                <div class="stat-label">Avg Score</div>
+                            </div>
+                        </div>
+                        <div class="teacher-actions">
+                            <button class="btn-small btn-primary-small">View Profile</button>
+                            <button class="btn-small btn-secondary-small">Edit</button>
+                        </div>
+                    </div>
+
+                    <div class="teacher-card">
+                        <div class="teacher-info">
+                            <img src="https://ui-avatars.com/api/?name=Michael+Chen&background=21cb7a&color=fff" alt="Avatar" class="teacher-avatar">
+                            <div>
+                                <div class="teacher-name">Prof. Michael Chen</div>
+                                <div class="teacher-role">Mathematics</div>
+                            </div>
+                        </div>
+                        <div class="teacher-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">22</div>
+                                <div class="stat-label">Tests</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">62</div>
+                                <div class="stat-label">Students</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">85%</div>
+                                <div class="stat-label">Avg Score</div>
+                            </div>
+                        </div>
+                        <div class="teacher-actions">
+                            <button class="btn-small btn-primary-small">View Profile</button>
+                            <button class="btn-small btn-secondary-small">Edit</button>
+                        </div>
+                    </div>
+
+                    <div class="teacher-card">
+                        <div class="teacher-info">
+                            <img src="https://ui-avatars.com/api/?name=Emily+Rodriguez&background=7c4dff&color=fff" alt="Avatar" class="teacher-avatar">
+                            <div>
+                                <div class="teacher-name">Dr. Emily Rodriguez</div>
+                                <div class="teacher-role">Physics</div>
+                            </div>
+                        </div>
+                        <div class="teacher-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">8</div>
+                                <div class="stat-label">Tests</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">38</div>
+                                <div class="stat-label">Students</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">87%</div>
+                                <div class="stat-label">Avg Score</div>
+                            </div>
+                        </div>
+                        <div class="teacher-actions">
+                            <button class="btn-small btn-primary-small">View Profile</button>
+                            <button class="btn-small btn-secondary-small">Edit</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Top Tests -->
+                <section class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">Top Performing Tests</h2>
+                    </div>
+                    
+                    <div class="test-card">
+                        <div class="test-title">Advanced Java Programming</div>
+                        <div class="test-meta">by Dr. Sarah Wilson • 45 participants</div>
+                        <div class="teacher-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">96%</div>
+                                <div class="stat-label">Completion</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">89%</div>
+                                <div class="stat-label">Avg Score</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="test-card">
+                        <div class="test-title">Data Structures & Algorithms</div>
+                        <div class="test-meta">by Prof. Michael Chen • 62 participants</div>
+                        <div class="teacher-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">94%</div>
+                                <div class="stat-label">Completion</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">85%</div>
+                                <div class="stat-label">Avg Score</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="test-card">
+                        <div class="test-title">Database Management</div>
+                        <div class="test-meta">by Dr. Sarah Wilson • 38 participants</div>
+                        <div class="teacher-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">92%</div>
+                                <div class="stat-label">Completion</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">87%</div>
+                                <div class="stat-label">Avg Score</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Performance Overview -->
+            <div class="performance-chart">
+                <div class="section-header">
+                    <h2 class="section-title">Institute Performance Overview</h2>
+                </div>
+                <div class="chart-placeholder">
+                    📊 Performance analytics chart would be displayed here
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <section class="quick-actions">
+                <div class="section-header">
+                    <h2 class="section-title">Quick Actions</h2>
+                </div>
+                <div class="action-grid">
+                    <div class="action-btn">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                        <span class="action-label">Manage Teachers</span>
+                    </div>
+                    <div class="action-btn">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        <span class="action-label">Student Reports</span>
+                    </div>
+                    <div class="action-btn">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                        </svg>
+                        <span class="action-label">Test Analytics</span>
+                    </div>
+                    <div class="action-btn">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
+                        <span class="action-label">Institute Settings</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Load navbar
+        fetch('../../components/navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar-container').innerHTML = data;
+                // Update navbar for institute role
+                updateNavbarForInstitute();
+            });
+
+        function updateNavbarForInstitute() {
+            // Update navbar content for institute portal
+            const navContainer = document.querySelector('#navbar-container .sidebar-header');
+            if (navContainer) {
+                navContainer.innerHTML = `
+                    <img src="https://ui-avatars.com/api/?name=Institute+Admin&background=1976d2&color=fff" alt="Avatar" class="avatar">
+                    <div>
+                        <div class="portal-title">Institute Portal</div>
+                        <div class="portal-user">Admin Dashboard</div>
+                    </div>
+                `;
+            }
+
+            const navLinks = document.querySelector('#navbar-container .sidebar-nav');
+            if (navLinks) {
+                navLinks.innerHTML = `
+                    <a class="active" href="institute-dashboard.html">Dashboard</a>
+                    <a href="teacher-dashboard.html">Teacher Portal</a>
+                    <a href="institute-mgmt.html">Institute Management</a>
+                    <a href="AppManagement.html">Application Management</a>
+                    <a href="../admin/admin-dashboard.html">Admin Portal</a>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

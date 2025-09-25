@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profile - JobsXperts</title>
+    <link rel="stylesheet" href="../../assets/css/navbar.css">
+    <link rel="stylesheet" href="../../assets/css/student-dashboard.css">
+    <style>
+        .profile-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 32px;
+            margin-bottom: 32px;
+        }
+
+        .profile-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .profile-card {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 2px 12px rgba(25, 118, 210, 0.07);
+            padding: 32px;
+            text-align: center;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            border: 4px solid #e3f2fd;
+            object-fit: cover;
+        }
+
+        .profile-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .profile-email {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+        }
+
+        .profile-id {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 24px;
+        }
+
+        .profile-stats {
+            display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .stat-item {
+            flex: 1;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1976d2;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .quick-actions {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 2px 12px rgba(25, 118, 210, 0.07);
+            padding: 24px;
+        }
+
+        .quick-actions h3 {
+            margin: 0 0 20px 0;
+            font-size: 1.3rem;
+            color: #333;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            padding: 12px 16px;
+            background: #f8f9ff;
+            border: 1px solid #e8eaff;
+            border-radius: 12px;
+            color: #333;
+            text-decoration: none;
+            margin-bottom: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .action-btn:hover {
+            background: #e3f2fd;
+            border-color: #1976d2;
+            transform: translateX(4px);
+        }
+
+        .action-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: #1976d2;
+        }
+
+        .profile-main {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .form-section {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 2px 12px rgba(25, 118, 210, 0.07);
+            padding: 32px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #333;
+            margin: 0;
+        }
+
+        .edit-btn {
+            background: #e3f2fd;
+            color: #1976d2;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .edit-btn:hover {
+            background: #1976d2;
+            color: #fff;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .form-input {
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: border-color 0.2s ease;
+            background: #f8f9ff;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #1976d2;
+            background: #fff;
+        }
+
+        .form-input:disabled {
+            background: #f5f5f5;
+            color: #666;
+            cursor: not-allowed;
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-select {
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+            background: #f8f9ff;
+            cursor: pointer;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: #1976d2;
+            background: #fff;
+        }
+
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .skill-tag {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .skill-remove {
+            background: none;
+            border: none;
+            color: #1976d2;
+            cursor: pointer;
+            font-size: 1rem;
+            line-height: 1;
+        }
+
+        .add-skill-btn {
+            background: #e8f5e8;
+            color: #388e3c;
+            border: 1px dashed #388e3c;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .add-skill-btn:hover {
+            background: #388e3c;
+            color: #fff;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .social-input {
+            flex: 1;
+            padding: 10px 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .save-section {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 2px 12px rgba(25, 118, 210, 0.07);
+            padding: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .save-info {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .save-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-save {
+            background: linear-gradient(90deg, #1976d2 0%, #21cb7a 100%);
+            color: #fff;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 24px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-cancel {
+            background: #f5f5f5;
+            color: #666;
+            border: 2px solid #e0e0e0;
+            padding: 10px 32px;
+            border-radius: 24px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-cancel:hover {
+            background: #e3f2fd;
+            color: #1976d2;
+            border-color: #1976d2;
+        }
+
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .achievement-item {
+            background: #f8f9ff;
+            border: 1px solid #e8eaff;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .achievement-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(25, 118, 210, 0.1);
+        }
+
+        .achievement-icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        .achievement-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .achievement-date {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .progress-section {
+            margin-top: 20px;
+        }
+
+        .progress-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .progress-label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            margin: 0 16px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #1976d2 0%, #21cb7a 100%);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-value {
+            font-weight: 600;
+            color: #1976d2;
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                margin-left: 0;
+                max-width: 100vw;
+                padding: 20px 24px;
+            }
+
+            .profile-container {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .save-section {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="navbar-container"></div>
+    
+    <div class="dashboard-wrapper">
+        <main class="main-content">
+            <!-- Header -->
+            <div class="header-card">
+                <div class="header-text">
+                    <h1>My Profile</h1>
+                    <p>Manage your personal information and preferences</p>
+                </div>
+                <div class="progress-circle">
+                    <span>85%</span>
+                    <div class="progress-label">Profile Complete</div>
+                </div>
+            </div>
+
+            <div class="profile-container">
+                <!-- Profile Sidebar -->
+                <div class="profile-sidebar">
+                    <!-- Profile Card -->
+                    <div class="profile-card">
+                        <img src="https://ui-avatars.com/api/?name=Alex+Johnson&background=1976d2&color=fff&size=120" alt="Profile Avatar" class="profile-avatar" id="profileAvatar">
+                        <h2 class="profile-name">Alex Johnson</h2>
+                        <p class="profile-email">alex.johnson@email.com</p>
+                        <span class="profile-id">ID: STU-2024-001</span>
+                        
+                        <div class="profile-stats">
+                            <div class="stat-item">
+                                <span class="stat-number">12</span>
+                                <span class="stat-label">Courses</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">8</span>
+                                <span class="stat-label">Certificates</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">3.8</span>
+                                <span class="stat-label">GPA</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="quick-actions">
+                        <h3>Quick Actions</h3>
+                        <a href="#" class="action-btn">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            </svg>
+                            Change Profile Picture
+                        </a>
+                        <a href="#" class="action-btn">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                            </svg>
+                            Change Password
+                        </a>
+                        <a href="#" class="action-btn">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                            Download Resume
+                        </a>
+                        <a href="#" class="action-btn">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"/>
+                            </svg>
+                            Share Profile
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Main Profile Content -->
+                <div class="profile-main">
+                    <!-- Personal Information -->
+                    <div class="form-section">
+                        <div class="section-header">
+                            <h3 class="section-title">Personal Information</h3>
+                            <button class="edit-btn" onclick="toggleEdit('personal')">Edit</button>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">First Name</label>
+                                <input type="text" class="form-input" value="Alex" disabled id="firstName">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Last Name</label>
+                                <input type="text" class="form-input" value="Johnson" disabled id="lastName">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email Address</label>
+                                <input type="email" class="form-input" value="alex.johnson@email.com" disabled id="email">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Phone Number</label>
+                                <input type="tel" class="form-input" value="+1 (555) 123-4567" disabled id="phone">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Date of Birth</label>
+                                <input type="date" class="form-input" value="1999-06-15" disabled id="dob">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Gender</label>
+                                <select class="form-select" disabled id="gender">
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                    <option value="prefer-not-to-say">Prefer not to say</option>
+                                </select>
+                            </div>
+                            <div class="form-group full-width">
+                                <label class="form-label">Address</label>
+                                <textarea class="form-input form-textarea" disabled id="address">123 University Ave, College Town, CT 06269, USA</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Academic Information -->
+                    <div class="form-section">
+                        <div class="section-header">
+                            <h3 class="section-title">Academic Information</h3>
+                            <button class="edit-btn" onclick="toggleEdit('academic')">Edit</button>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">Student ID</label>
+                                <input type="text" class="form-input" value="STU-2024-001" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Enrollment Date</label>
+                                <input type="date" class="form-input" value="2024-01-15" disabled id="enrollmentDate">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Major/Field of Study</label>
+                                <input type="text" class="form-input" value="Computer Science" disabled id="major">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Academic Level</label>
+                                <select class="form-select" disabled id="academicLevel">
+                                    <option value="undergraduate">Undergraduate</option>
+                                    <option value="graduate">Graduate</option>
+                                    <option value="postgraduate">Postgraduate</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Expected Graduation</label>
+                                <input type="month" class="form-input" value="2026-05" disabled id="graduationDate">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Current GPA</label>
+                                <input type="number" class="form-input" value="3.8" step="0.1" min="0" max="4" disabled id="gpa">
+                            </div>
+                        </div>
+
+                        <!-- Academic Progress -->
+                        <div class="progress-section">
+                            <h4 style="margin-bottom: 16px; color: #333;">Academic Progress</h4>
+                            <div class="progress-item">
+                                <span class="progress-label">Overall Progress</span>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 75%;"></div>
+                                </div>
+                                <span class="progress-value">75%</span>
+                            </div>
+                            <div class="progress-item">
+                                <span class="progress-label">Credits Earned</span>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 60%;"></div>
+                                </div>
+                                <span class="progress-value">45/75</span>
+                            </div>
+                            <div class="progress-item">
+                                <span class="progress-label">Courses Completed</span>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 67%;"></div>
+                                </div>
+                                <span class="progress-value">8/12</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Skills & Interests -->
+                    <div class="form-section">
+                        <div class="section-header">
+                            <h3 class="section-title">Skills & Interests</h3>
+                            <button class="edit-btn" onclick="toggleEdit('skills')">Edit</button>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Technical Skills</label>
+                            <div class="skills-container" id="technicalSkills">
+                                <span class="skill-tag">JavaScript <button class="skill-remove">×</button></span>
+                                <span class="skill-tag">Python <button class="skill-remove">×</button></span>
+                                <span class="skill-tag">React <button class="skill-remove">×</button></span>
+                                <span class="skill-tag">Node.js <button class="skill-remove">×</button></span>
+                                <span class="skill-tag">SQL <button class="skill-remove">×</button></span>
+                                <button class="add-skill-btn" onclick="addSkill('technical')">+ Add Skill</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Soft Skills</label>
+                            <div class="skills-container" id="softSkills">
+                                <span class="skill-tag">Leadership <button class="skill-remove">×</button></span>
+                                <span class="skill-tag">Communication <button class="skill-remove">×</button></span>
+                                <span class="skill-tag">Problem Solving <button class="skill-remove">×</button></span>
+                                <span class="skill-tag">Teamwork <button class="skill-remove">×</button></span>
+                                <button class="add-skill-btn" onclick="addSkill('soft')">+ Add Skill</button>
+                            </div>
+                        </div>
+                        <div class="form-group full-width">
+                            <label class="form-label">Interests & Hobbies</label>
+                            <textarea class="form-input form-textarea" disabled id="interests">Web Development, Artificial Intelligence, Machine Learning, Photography, Basketball, Reading Tech Blogs</textarea>
+                        </div>
+                    </div>
+
+                    <!-- Social & Professional Links -->
+                    <div class="form-section">
+                        <div class="section-header">
+                            <h3 class="section-title">Social & Professional Links</h3>
+                            <button class="edit-btn" onclick="toggleEdit('social')">Edit</button>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">LinkedIn</label>
+                                <input type="url" class="form-input" value="https://linkedin.com/in/alexjohnson" disabled id="linkedin">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">GitHub</label>
+                                <input type="url" class="form-input" value="https://github.com/alexjohnson" disabled id="github">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Portfolio Website</label>
+                                <input type="url" class="form-input" value="https://alexjohnson.dev" disabled id="portfolio">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Twitter</label>
+                                <input type="url" class="form-input" value="https://twitter.com/alexjohnsondev" disabled id="twitter">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Achievements & Certifications -->
+                    <div class="form-section">
+                        <div class="section-header">
+                            <h3 class="section-title">Achievements & Certifications</h3>
+                        </div>
+                        <div class="achievements-grid">
+                            <div class="achievement-item">
+                                <div class="achievement-icon">🏆</div>
+                                <div class="achievement-title">Dean's List</div>
+                                <div class="achievement-date">Spring 2024</div>
+                            </div>
+                            <div class="achievement-item">
+                                <div class="achievement-icon">🎓</div>
+                                <div class="achievement-title">AWS Certified</div>
+                                <div class="achievement-date">March 2024</div>
+                            </div>
+                            <div class="achievement-item">
+                                <div class="achievement-icon">🥇</div>
+                                <div class="achievement-title">Hackathon Winner</div>
+                                <div class="achievement-date">February 2024</div>
+                            </div>
+                            <div class="achievement-item">
+                                <div class="achievement-icon">📜</div>
+                                <div class="achievement-title">React Certificate</div>
+                                <div class="achievement-date">January 2024</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Save Section -->
+                    <div class="save-section" id="saveSection" style="display: none;">
+                        <div class="save-info">
+                            <strong>Unsaved Changes</strong><br>
+                            Don't forget to save your changes before leaving.
+                        </div>
+                        <div class="save-buttons">
+                            <button class="btn-cancel" onclick="cancelChanges()">Cancel</button>
+                            <button class="btn-save" onclick="saveChanges()">Save Changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Load navbar
+        fetch('../../components/navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar-container').innerHTML = data;
+            });
+
+        let editingSections = new Set();
+        let originalValues = {};
+
+        function toggleEdit(section) {
+            const sectionElement = document.querySelector(`[onclick="toggleEdit('${section}')"]`).closest('.form-section');
+            const inputs = sectionElement.querySelectorAll('input, select, textarea');
+            const editBtn = sectionElement.querySelector('.edit-btn');
+            
+            if (editingSections.has(section)) {
+                // Save mode - disable editing
+                inputs.forEach(input => {
+                    if (!input.readOnly) {
+                        input.disabled = true;
+                    }
+                });
+                editBtn.textContent = 'Edit';
+                editingSections.delete(section);
+            } else {
+                // Edit mode - enable editing
+                inputs.forEach(input => {
+                    if (!input.readOnly) {
+                        originalValues[input.id] = input.value;
+                        input.disabled = false;
+                    }
+                });
+                editBtn.textContent = 'Cancel';
+                editingSections.add(section);
+            }
+            
+            // Show/hide save section
+            document.getElementById('saveSection').style.display = 
+                editingSections.size > 0 ? 'flex' : 'none';
+        }
+
+        function addSkill(type) {
+            const skillName = prompt(`Add a new ${type} skill:`);
+            if (skillName && skillName.trim()) {
+                const container = document.getElementById(type === 'technical' ? 'technicalSkills' : 'softSkills');
+                const addButton = container.querySelector('.add-skill-btn');
+                
+                const skillTag = document.createElement('span');
+                skillTag.className = 'skill-tag';
+                skillTag.innerHTML = `${skillName.trim()} <button class="skill-remove" onclick="removeSkill(this)">×</button>`;
+                
+                container.insertBefore(skillTag, addButton);
+                showSaveSection();
+            }
+        }
+
+        function removeSkill(button) {
+            button.parentElement.remove();
+            showSaveSection();
+        }
+
+        function showSaveSection() {
+            document.getElementById('saveSection').style.display = 'flex';
+        }
+
+        function saveChanges() {
+            // Here you would normally send the data to your backend
+            alert('Profile updated successfully!');
+            
+            // Reset editing state
+            editingSections.clear();
+            originalValues = {};
+            
+            // Disable all inputs and reset edit buttons
+            document.querySelectorAll('.form-section').forEach(section => {
+                const inputs = section.querySelectorAll('input, select, textarea');
+                inputs.forEach(input => {
+                    if (!input.readOnly) {
+                        input.disabled = true;
+                    }
+                });
+                const editBtn = section.querySelector('.edit-btn');
+                if (editBtn) {
+                    editBtn.textContent = 'Edit';
+                }
+            });
+            
+            document.getElementById('saveSection').style.display = 'none';
+        }
+
+        function cancelChanges() {
+            // Restore original values
+            Object.keys(originalValues).forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.value = originalValues[id];
+                }
+            });
+            
+            // Reset editing state
+            editingSections.clear();
+            originalValues = {};
+            
+            // Disable all inputs and reset edit buttons
+            document.querySelectorAll('.form-section').forEach(section => {
+                const inputs = section.querySelectorAll('input, select, textarea');
+                inputs.forEach(input => {
+                    if (!input.readOnly) {
+                        input.disabled = true;
+                    }
+                });
+                const editBtn = section.querySelector('.edit-btn');
+                if (editBtn) {
+                    editBtn.textContent = 'Edit';
+                }
+            });
+            
+            document.getElementById('saveSection').style.display = 'none';
+        }
+
+        // Profile picture click handler
+        document.getElementById('profileAvatar').addEventListener('click', function() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.getElementById('profileAvatar').src = e.target.result;
+                        showSaveSection();
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            input.click();
+        });
+
+        // Auto-save indicator
+        let saveTimeout;
+        document.addEventListener('input', function(e) {
+            if (e.target.matches('.form-input, .form-select')) {
+                clearTimeout(saveTimeout);
+                saveTimeout = setTimeout(() => {
+                    // Auto-save functionality could be implemented here
+                    console.log('Auto-saving...');
+                }, 2000);
+            }
+        });
+    </script>
+</body>
+</html>

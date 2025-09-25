@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Details - JobsXperts</title>
+    <link rel="stylesheet" href="../../assets/css/navbar.css">
+    <link rel="stylesheet" href="../../assets/css/student-dashboard.css">
+    <style>
+        .course-header {
+            background: linear-gradient(135deg, #1976d2 0%, #21cb7a 100%);
+            color: #fff;
+            border-radius: 24px;
+            padding: 40px 48px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 24px rgba(25, 118, 210, 0.10);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .course-header h1 {
+            margin: 0 0 12px 0;
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .course-instructor {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .instructor-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .instructor-info h3 {
+            margin: 0;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .instructor-info p {
+            margin: 4px 0 0 0;
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .course-meta {
+            display: flex;
+            gap: 32px;
+            margin-top: 24px;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .meta-item svg {
+            opacity: 0.9;
+        }
+
+        .course-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 32px;
+            margin-bottom: 32px;
+        }
+
+        .course-main {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 2px 12px rgba(25, 118, 210, 0.07);
+            overflow: hidden;
+        }
+
+        .course-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .course-nav {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 2px 12px rgba(25, 118, 210, 0.07);
+            padding: 24px;
+        }
+
+        .course-nav h3 {
+            margin: 0 0 20px 0;
+            font-size: 1.3rem;
+            color: #333;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .nav-item:hover {
+            background: #f5f9ff;
+        }
+
+        .nav-item.active {
+            background: #e3f2fd;
+            color: #1976d2;
+            font-weight: 600;
+        }
+
+        .nav-item.completed {
+            background: #e8f5e8;
+            color: #388e3c;
+        }
+
+        .nav-item-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .lesson-number {
+            background: #e0e0e0;
+            color: #666;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .nav-item.active .lesson-number {
+            background: #1976d2;
+            color: #fff;
+        }
+
+        .nav-item.completed .lesson-number {
+            background: #388e3c;
+            color: #fff;
+        }
+
+        .lesson-status {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .tab-navigation {
+            display: flex;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 16px 24px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            color: #1976d2;
+            border-bottom-color: #1976d2;
+        }
+
+        .tab-content {
+            padding: 32px;
+        }
+
+        .video-container {
+            background: #000;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            position: relative;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .play-button {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .play-button:hover {
+            transform: scale(1.1);
+        }
+
+        .lesson-content h2 {
+            margin: 0 0 16px 0;
+            font-size: 1.8rem;
+            color: #333;
+        }
+
+        .lesson-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .lesson-resources {
+            background: #f8f9ff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .lesson-resources h4 {
+            margin: 0 0 16px 0;
+            color: #333;
+        }
+
+        .resource-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .resource-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 12px;
+            background: #fff;
+            border-radius: 8px;
+            color: #1976d2;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .resource-item:hover {
+            background: #e3f2fd;
+        }
+
+        .lesson-actions {
+            display: flex;
+            gap: 16px;
+            margin-top: 32px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #1976d2 0%, #21cb7a 100%);
+            color: #fff;
+            border: none;
+            border-radius: 24px;
+            padding: 12px 32px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #f5f5f5;
+            color: #666;
+            border: 2px solid #e0e0e0;
+            border-radius: 24px;
+            padding: 10px 32px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: #e3f2fd;
+            color: #1976d2;
+            border-color: #1976d2;
+        }
+
+        .progress-sidebar {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 2px 12px rgba(25, 118, 210, 0.07);
+            padding: 24px;
+        }
+
+        .progress-sidebar h3 {
+            margin: 0 0 20px 0;
+            font-size: 1.3rem;
+            color: #333;
+        }
+
+        .progress-ring {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .progress-circle-large {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: conic-gradient(#1976d2 0deg 270deg, #e0e0e0 270deg 360deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .progress-circle-large::before {
+            content: '';
+            width: 90px;
+            height: 90px;
+            background: #fff;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .progress-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1976d2;
+            z-index: 1;
+        }
+
+        .progress-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .stat-value {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .quiz-section {
+            background: #fff5e6;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 24px;
+        }
+
+        .quiz-section h4 {
+            margin: 0 0 12px 0;
+            color: #ff9800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .quiz-description {
+            color: #666;
+            margin-bottom: 16px;
+        }
+
+        .quiz-button {
+            background: #ff9800;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .quiz-button:hover {
+            background: #f57c00;
+        }
+
+        @media (max-width: 1024px) {
+            .course-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                max-width: 100vw;
+                padding: 20px 24px;
+            }
+            
+            .course-meta {
+                flex-direction: column;
+                gap: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="navbar-container"></div>
+    
+    <div class="dashboard-wrapper">
+        <main class="main-content">
+            <!-- Course Header -->
+            <div class="course-header">
+                <h1>Full Stack Web Development</h1>
+                <div class="course-instructor">
+                    <img src="https://ui-avatars.com/api/?name=Dr+Sarah+Johnson&background=1976d2&color=fff" alt="Dr. Sarah Johnson" class="instructor-avatar">
+                    <div class="instructor-info">
+                        <h3>Dr. Sarah Johnson</h3>
+                        <p>Senior Full Stack Developer & Instructor</p>
+                    </div>
+                </div>
+                <div class="course-meta">
+                    <div class="meta-item">
+                        <svg width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 8v4m0 0v4m0-4h4m-4 0H8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        12 Weeks Duration
+                    </div>
+                    <div class="meta-item">
+                        <svg width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        4.8 Rating
+                    </div>
+                    <div class="meta-item">
+                        <svg width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2"/>
+                            <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+                            <path d="m22 21-3-3m0 0a4 4 0 1 0-8 0 4 4 0 0 0 8 0z" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        1,234 Students
+                    </div>
+                    <div class="meta-item">
+                        <svg width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+                            <path d="M12 1v6m0 6v6" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        Live Sessions: Mon, Wed, Fri
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course Content -->
+            <div class="course-content">
+                <!-- Main Content Area -->
+                <div class="course-main">
+                    <div class="tab-navigation">
+                        <button class="tab-btn active" onclick="switchTab('overview')">Overview</button>
+                        <button class="tab-btn" onclick="switchTab('lessons')">Lessons</button>
+                        <button class="tab-btn" onclick="switchTab('assignments')">Assignments</button>
+                        <button class="tab-btn" onclick="switchTab('discussion')">Discussion</button>
+                    </div>
+
+                    <!-- Overview Tab -->
+                    <div id="overview" class="tab-content">
+                        <div class="video-container">
+                            <button class="play-button" onclick="playVideo()">
+                                <svg width="32" height="32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M8 5v14l11-7L8 5z" fill="#1976d2"/>
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <h2>Course Introduction</h2>
+                        <div class="lesson-description">
+                            <p>Welcome to Full Stack Web Development! This comprehensive course will take you from beginner to professional developer in 12 weeks. You'll learn modern web technologies including HTML5, CSS3, JavaScript ES6+, React, Node.js, Express, and MongoDB.</p>
+                            
+                            <p>By the end of this course, you'll have built several real-world projects including a social media app, e-commerce platform, and a job portal similar to LinkedIn. You'll also learn industry best practices, deployment strategies, and how to work with APIs.</p>
+                            
+                            <h4>What You'll Learn:</h4>
+                            <ul>
+                                <li>Modern HTML5 and CSS3 techniques</li>
+                                <li>JavaScript fundamentals and advanced concepts</li>
+                                <li>React framework and component-based architecture</li>
+                                <li>Server-side development with Node.js and Express</li>
+                                <li>Database design and MongoDB integration</li>
+                                <li>RESTful API development and consumption</li>
+                                <li>Authentication and authorization</li>
+                                <li>Deployment and DevOps basics</li>
+                            </ul>
+                        </div>
+
+                        <div class="lesson-resources">
+                            <h4>Course Resources</h4>
+                            <div class="resource-list">
+                                <a href="#" class="resource-item">
+                                    <svg width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" stroke-width="2"/>
+                                        <polyline points="14,2 14,8 20,8" stroke="currentColor" stroke-width="2"/>
+                                    </svg>
+                                    Course Syllabus (PDF)
+                                </a>
+                                <a href="#" class="resource-item">
+                                    <svg width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                                        <polyline points="12,6 12,12 16,14" stroke="currentColor" stroke-width="2"/>
+                                    </svg>
+                                    Project Timeline
+                                </a>
+                                <a href="#" class="resource-item">
+                                    <svg width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" stroke="currentColor" stroke-width="2"/>
+                                    </svg>
+                                    GitHub Repository
+                                </a>
+                                <a href="#" class="resource-item">
+                                    <svg width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke="currentColor" stroke-width="2"/>
+                                        <polyline points="7.5,4.21 12,6.81 16.5,4.21" stroke="currentColor" stroke-width="2"/>
+                                        <polyline points="7.5,19.79 7.5,14.6 3,12" stroke="currentColor" stroke-width="2"/>
+                                        <polyline points="21,12 16.5,14.6 16.5,19.79" stroke="currentColor" stroke-width="2"/>
+                                    </svg>
+                                    Development Tools Setup
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="quiz-section">
+                            <h4>
+                                <svg width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M12 17h.01" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                                Knowledge Check
+                            </h4>
+                            <p class="quiz-description">Test your understanding of web development concepts before starting the course.</p>
+                            <button class="quiz-button">Take Pre-Assessment Quiz</button>
+                        </div>
+
+                        <div class="lesson-actions">
+                            <button class="btn-primary" onclick="startCourse()">Start Learning</button>
+                            <button class="btn-secondary" onclick="downloadResources()">Download All Resources</button>
+                        </div>
+                    </div>
+
+                    <!-- Lessons Tab -->
+                    <div id="lessons" class="tab-content" style="display: none;">
+                        <h2>Course Lessons</h2>
+                        <p>Navigate through the course curriculum using the lesson navigator on the right.</p>
+                    </div>
+
+                    <!-- Assignments Tab -->
+                    <div id="assignments" class="tab-content" style="display: none;">
+                        <h2>Assignments & Projects</h2>
+                        <div class="assignment-list">
+                            <div class="assignment-item">
+                                <h4>Project 1: Personal Portfolio Website</h4>
+                                <p>Create a responsive portfolio website using HTML5, CSS3, and JavaScript.</p>
+                                <div class="assignment-meta">
+                                    <span>Due: Week 3</span>
+                                    <span class="assignment-status pending">Pending</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Discussion Tab -->
+                    <div id="discussion" class="tab-content" style="display: none;">
+                        <h2>Course Discussion</h2>
+                        <p>Join the conversation with fellow students and instructors.</p>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="course-sidebar">
+                    <!-- Course Navigation -->
+                    <div class="course-nav">
+                        <h3>Course Curriculum</h3>
+                        <div class="nav-item completed">
+                            <div class="nav-item-content">
+                                <div class="lesson-number">1</div>
+                                <div>
+                                    <div>Introduction to Web Development</div>
+                                    <div class="lesson-status">15 min • Completed</div>
+                                </div>
+                            </div>
+                            <svg width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20 6L9 17l-5-5" stroke="#388e3c" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        
+                        <div class="nav-item completed">
+                            <div class="nav-item-content">
+                                <div class="lesson-number">2</div>
+                                <div>
+                                    <div>HTML5 Fundamentals</div>
+                                    <div class="lesson-status">45 min • Completed</div>
+                                </div>
+                            </div>
+                            <svg width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20 6L9 17l-5-5" stroke="#388e3c" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        
+                        <div class="nav-item active">
+                            <div class="nav-item-content">
+                                <div class="lesson-number">3</div>
+                                <div>
+                                    <div>CSS3 & Styling</div>
+                                    <div class="lesson-status">60 min • In Progress</div>
+                                </div>
+                            </div>
+                            <svg width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="3" fill="#1976d2"/>
+                            </svg>
+                        </div>
+                        
+                        <div class="nav-item">
+                            <div class="nav-item-content">
+                                <div class="lesson-number">4</div>
+                                <div>
+                                    <div>JavaScript Basics</div>
+                                    <div class="lesson-status">90 min • Locked</div>
+                                </div>
+                            </div>
+                            <svg width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" stroke="#ccc" stroke-width="2"/>
+                                <circle cx="12" cy="16" r="1" fill="#ccc"/>
+                            </svg>
+                        </div>
+                        
+                        <div class="nav-item">
+                            <div class="nav-item-content">
+                                <div class="lesson-number">5</div>
+                                <div>
+                                    <div>React Introduction</div>
+                                    <div class="lesson-status">75 min • Locked</div>
+                                </div>
+                            </div>
+                            <svg width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" stroke="#ccc" stroke-width="2"/>
+                                <circle cx="12" cy="16" r="1" fill="#ccc"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Progress Tracking -->
+                    <div class="progress-sidebar">
+                        <h3>Your Progress</h3>
+                        <div class="progress-ring">
+                            <div class="progress-circle-large">
+                                <div class="progress-text">75%</div>
+                            </div>
+                        </div>
+                        
+                        <div class="progress-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Lessons Completed</span>
+                                <span class="stat-value">15/20</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Time Spent</span>
+                                <span class="stat-value">24h 30m</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Assignments Done</span>
+                                <span class="stat-value">3/5</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Quiz Average</span>
+                                <span class="stat-value">92%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Load navbar
+        fetch('../../components/navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar-container').innerHTML = data;
+            });
+
+        // Tab switching functionality
+        function switchTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.style.display = 'none';
+            });
+
+            // Remove active class from all tab buttons
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            tabBtns.forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab content
+            document.getElementById(tabName).style.display = 'block';
+
+            // Add active class to clicked tab button
+            event.target.classList.add('active');
+        }
+
+        // Video player functionality
+        function playVideo() {
+            alert('Video player would open here. Integration with video platform needed.');
+        }
+
+        // Course actions
+        function startCourse() {
+            alert('Redirecting to first lesson...');
+        }
+
+        function downloadResources() {
+            alert('Downloading course resources...');
+        }
+
+        // Lesson navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    if (!this.classList.contains('nav-item') || this.querySelector('svg rect')) {
+                        return; // Don't allow navigation to locked lessons
+                    }
+
+                    // Remove active class from all items
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    
+                    // Add active class to clicked item
+                    this.classList.add('active');
+                    
+                    // Switch to lessons tab if not already there
+                    switchTab('lessons');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

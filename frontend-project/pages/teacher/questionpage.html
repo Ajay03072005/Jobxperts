@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Question Bank</title>
+  <link rel="stylesheet" href="../../assets/css/questionpage.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>Question Bank</h1>
+    <div class="actions">
+      <input id="csvFileInput" type="file" accept=".csv" />
+      <button id="downloadTemplate">Download CSV Template</button>
+      <button id="btnAdd">+ Add Question</button>
+    </div>
+  </header>
+
+  <main class="main">
+    <aside class="filters">
+      <h2>Filters</h2>
+      <label>Search
+        <input id="searchText" placeholder="search question / tag / explanation" />
+      </label>
+
+      <label>Type
+        <select id="filterType">
+          <option value="">All</option>
+          <option value="mcq">MCQ</option>
+          <option value="tf">True/False</option>
+        </select>
+      </label>
+
+      <label>Difficulty
+        <select id="filterDiff">
+          <option value="">All</option>
+          <option value="Easy">Easy</option>
+          <option value="Medium">Medium</option>
+          <option value="Hard">Hard</option>
+        </select>
+      </label>
+
+      <label>Tag
+        <select id="filterTag">
+          <option value="">All</option>
+        </select>
+      </label>
+
+      <button id="clearFilters">Clear Filters</button>
+    </aside>
+
+    <section class="content">
+      <div id="questionsList" class="questions-list"></div>
+    </section>
+  </main>
+
+  
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-panel">
+      <header>
+        <h3 id="modalTitle">Add Question</h3>
+        <a href="question-bank.html" id="closeModal" class="close">✕</a>
+
+      </header>
+      <form id="questionForm" class="form">
+        <input type="hidden" id="qId" />
+
+        <label>Question Type
+          <select id="qType" required>
+            <option value="mcq">MCQ</option>
+            <option value="tf">True / False</option>
+          </select>
+        </label>
+
+        <label>Question Text
+          <textarea id="qText" rows="3" required placeholder="Type the question..."></textarea>
+        </label>
+
+        <div id="mcqOptions">
+          <label>Options:
+            <div id="optionsWrap"></div>
+            <button id="addOption" type="button">+ Add Option</button>
+          </label>
+        </div>
+
+        <div id="tfOption" class="hidden">
+          <label>Correct Answer
+            <select id="tfCorrect">
+              <option value="true">True</option>
+              <option value="false">False</option>
+            </select>
+          </label>
+        </div>
+
+        <label>Tags (comma separated)
+          <input id="qTags" placeholder="e.g. math,algebra" />
+        </label>
+
+        <label>Difficulty
+          <select id="qDifficulty">
+            <option value="Easy">Easy</option>
+            <option value="Medium">Medium</option>
+            <option value="Hard">Hard</option>
+          </select>
+        </label>
+
+        <label>Explanation
+          <textarea id="qExplanation" rows="2" placeholder="Short explanation (optional)"></textarea>
+        </label>
+
+        <label>Image (optional)
+          <input id="qImage" type="file" accept="image/*" />
+          <div id="imagePreview" class="imgpreview"></div>
+        </label>
+
+        <div class="form-actions">
+          <button id="saveQuestion" type="submit">Save</button>
+          <button id="cancel" type="button">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <template id="questionCardTpl">
+    <article class="question-card">
+      <div class="card-head">
+        <h4 class="q-text"></h4>
+        <div class="card-actions">
+          <button class="edit">Edit</button>
+          <button class="delete">Delete</button>
+        </div>
+      </div>
+      <div class="meta">
+        <span class="taglist"></span> • <span class="difficulty"></span> • <span class="type"></span>
+      </div>
+      <div class="q-body"></div>
+    </article>
+  </template>
+
+  <script src="../../assets/js/questionpage.js"></script>
+</body>
+</html>

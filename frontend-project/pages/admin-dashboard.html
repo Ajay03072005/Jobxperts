@@ -1,1 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - EduPortal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb;
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 6px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #9ca3af;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
 
+    <div class="flex h-screen bg-gray-100">
+        <!-- Sidebar -->
+        <aside class="w-64 flex-shrink-0 bg-white border-r border-gray-200 flex flex-col">
+            <!-- Sidebar Header -->
+            <div class="h-20 flex items-center px-6">
+                 <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="bg-gradient-to-tr from-blue-500 to-green-400 text-white p-2 rounded-full">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 1.1.9 2 2 2h8a2 2 0 002-2v-5"/></svg>
+                        </div>
+                    </div>
+                    <div class="ml-3">
+                        <h1 class="text-md font-bold text-gray-800">Admin Portal</h1>
+                        <p class="text-xs text-gray-500">John Doe</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar Navigation -->
+            <nav class="flex-1 px-4 py-4 space-y-2">
+                <a href="#" class="flex items-center px-4 py-2.5 text-sm font-semibold text-white bg-green-500 rounded-lg">
+                    <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    Dashboard
+                </a>
+                <a href="#" class="flex items-center px-4 py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-100 rounded-lg">
+                    <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                    Institutes
+                </a>
+                <a href="#" class="flex items-center px-4 py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-100 rounded-lg">
+                   <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    User Management
+                </a>
+                <a href="#" class="flex items-center px-4 py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-100 rounded-lg">
+                    <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 2v6h6M21.5 22v-6h-6"/><path d="M22 11.5A10 10 0 0 0 3.5 12.5"/><path d="M2 12.5a10 10 0 0 0 18.5-1"/></svg>
+                    System Reports
+                </a>
+                 <a href="#" class="flex items-center px-4 py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-100 rounded-lg">
+                    <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 0 2l-.15.08a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1 0-2l.15-.08a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    Settings
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Top Navigation Bar -->
+             <header class="bg-white border-b border-gray-200 shadow-sm">
+                <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex items-center justify-end h-20">
+                         <!-- Right Section from previous Navbar -->
+                        <div class="flex items-center space-x-4 md:space-x-6">
+
+                            <div id="nav-group" class="hidden md:flex bg-gray-100 rounded-full p-1 items-center space-x-1">
+                                <button data-role="Student" class="nav-item px-4 py-2 text-sm font-medium text-gray-700 rounded-full hover:bg-gray-200 flex items-center space-x-2 transition-colors duration-200">
+                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                    <span>Student</span>
+                                </button>
+                                <button data-role="Teacher" class="nav-item px-4 py-2 text-sm font-medium text-gray-700 rounded-full hover:bg-gray-200 flex items-center space-x-2 transition-colors duration-200">
+                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><polyline points="17 11 19 13 23 9"></polyline></svg>
+                                    <span>Teacher</span>
+                                </button>
+                                 <button data-role="Institute" class="nav-item px-4 py-2 text-sm font-medium text-gray-700 rounded-full hover:bg-gray-200 flex items-center space-x-2 transition-colors duration-200">
+                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                                    <span>Institute</span>
+                                </button>
+                                <button data-role="Admin" class="nav-item px-4 py-2 text-sm font-medium rounded-full flex items-center space-x-2 transition-colors duration-200">
+                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                                    <span>Admin</span>
+                                </button>
+                            </div>
+
+                            <button class="relative p-2 rounded-full text-gray-600 hover:bg-gray-100 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                <span class="absolute top-1.5 right-1.5 h-2.5 w-2.5">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-pink-500"></span>
+                                </span>
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                            </button>
+
+                            <button class="w-10 h-10 flex items-center justify-center rounded-full bg-cyan-500 text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
+                                <span class="sr-only">Open user menu</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Dashboard Content -->
+            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50">
+                <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+                    <!-- Header -->
+                    <div class="flex justify-between items-center mb-8">
+                        <div>
+                            <h2 class="text-3xl font-bold text-gray-800">Admin Dashboard</h2>
+                            <p class="text-gray-500 mt-1">Manage institutes, monitor system performance, and oversee platform operations.</p>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <button class="flex items-center bg-white border border-gray-300 rounded-lg px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
+                               <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 0 2l-.15.08a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1 0-2l.15-.08a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                System Settings
+                            </button>
+                            <button class="flex items-center bg-blue-600 text-white rounded-lg px-4 py-2 text-sm font-medium hover:bg-blue-700">
+                                <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                Add Institute
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Stat Cards -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-500">Total Institutes</p>
+                                <p class="text-3xl font-bold text-gray-800">4</p>
+                                <p class="text-xs text-gray-500">2 active</p>
+                            </div>
+                            <div class="bg-blue-100 text-blue-600 p-3 rounded-full">
+                                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-500">Total Users</p>
+                                <p class="text-3xl font-bold text-gray-800">1,075</p>
+                                <p class="text-xs text-gray-500">30 teachers, 1045 students</p>
+                            </div>
+                            <div class="bg-green-100 text-green-600 p-3 rounded-full">
+                                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-500">Tests This Month</p>
+                                <p class="text-3xl font-bold text-gray-800">85</p>
+                                <p class="text-xs text-green-500">+15% vs last month</p>
+                            </div>
+                            <div class="bg-purple-100 text-purple-600 p-3 rounded-full">
+                                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-500">System Uptime</p>
+                                <p class="text-3xl font-bold text-gray-800">99.8%</p>
+                                <p class="text-xs text-gray-500">Avg response: 1.2s</p>
+                            </div>
+                            <div class="bg-yellow-100 text-yellow-600 p-3 rounded-full">
+                               <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main Content Grid -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <!-- Left Column: Pending Approvals -->
+                        <div class="lg:col-span-1 bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                             <div class="flex items-center mb-4">
+                                <svg class="w-6 h-6 text-gray-500 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                                <div>
+                                    <h3 class="font-semibold text-gray-800">Pending Approvals</h3>
+                                    <p class="text-xs text-gray-500">Institute registrations awaiting review</p>
+                                </div>
+                            </div>
+                           
+                            <div class="space-y-6">
+                                <!-- Approval Card 1 -->
+                                <div class="border border-gray-200 rounded-lg p-4">
+                                    <h4 class="font-semibold text-gray-800">Advanced Tech Institute</h4>
+                                    <p class="text-sm text-gray-500 mt-1">Domain: <span class="text-gray-700">advanced-tech</span></p>
+                                    <p class="text-sm text-gray-500">By: <span class="text-gray-700">Dr. Sarah Wilson</span></p>
+                                    <p class="text-xs text-gray-400 mt-2">2024-12-15</p>
+                                    <div class="flex space-x-2 mt-4 text-xs">
+                                        <a href="#" class="bg-gray-100 text-gray-600 px-2 py-1 rounded-md">registration.pdf</a>
+                                        <a href="#" class="bg-gray-100 text-gray-600 px-2 py-1 rounded-md">license.pdf</a>
+                                    </div>
+                                    <div class="flex space-x-2 mt-4">
+                                        <button class="w-full bg-green-500 text-white py-2 rounded-md text-sm font-medium hover:bg-green-600">Approve</button>
+                                        <button class="w-full bg-red-500 text-white py-2 rounded-md text-sm font-medium hover:bg-red-600">Reject</button>
+                                    </div>
+                                </div>
+                                <!-- Approval Card 2 -->
+                                <div class="border border-gray-200 rounded-lg p-4">
+                                    <h4 class="font-semibold text-gray-800">Future Coders Academy</h4>
+                                    <p class="text-sm text-gray-500 mt-1">Domain: <span class="text-gray-700">future-coders</span></p>
+                                    <p class="text-sm text-gray-500">By: <span class="text-gray-700">John Martinez</span></p>
+                                    <p class="text-xs text-gray-400 mt-2">2024-12-14</p>
+                                    <div class="flex space-x-2 mt-4 text-xs">
+                                        <a href="#" class="bg-gray-100 text-gray-600 px-2 py-1 rounded-md">accreditation.pdf</a>
+                                    </div>
+                                    <div class="flex space-x-2 mt-4">
+                                        <button class="w-full bg-green-500 text-white py-2 rounded-md text-sm font-medium hover:bg-green-600">Approve</button>
+                                        <button class="w-full bg-red-500 text-white py-2 rounded-md text-sm font-medium hover:bg-red-600">Reject</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Column: Institute Overview -->
+                        <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                             <div class="mb-4">
+                                <h3 class="font-semibold text-gray-800">Institute Overview</h3>
+                                <p class="text-xs text-gray-500">Manage all registered institutes and their status</p>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm text-left text-gray-500">
+                                    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                        <tr>
+                                            <th scope="col" class="px-6 py-3">Institute</th>
+                                            <th scope="col" class="px-6 py-3">Status</th>
+                                            <th scope="col" class="px-6 py-3">Users</th>
+                                            <th scope="col" class="px-6 py-3">Tests</th>
+                                            <th scope="col" class="px-6 py-3">Last Active</th>
+                                            <th scope="col" class="px-6 py-3">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="bg-white border-b">
+                                            <td class="px-6 py-4 font-medium text-gray-900">
+                                                Tech Academy Institute
+                                                <p class="text-xs text-gray-500 font-normal">tech-academy.jobsexperts.com</p>
+                                            </td>
+                                            <td class="px-6 py-4"><span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">Active</span></td>
+                                            <td class="px-6 py-4">12 teachers<br>450 students</td>
+                                            <td class="px-6 py-4">28 this month</td>
+                                            <td class="px-6 py-4">2024-12-16</td>
+                                            <td class="px-6 py-4 space-x-2"><a href="#" class="font-medium text-blue-600 hover:underline">View</a> <a href="#" class="font-medium text-blue-600 hover:underline">Settings</a></td>
+                                        </tr>
+                                       <tr class="bg-white border-b">
+                                            <td class="px-6 py-4 font-medium text-gray-900">
+                                                Digital Skills Center
+                                                <p class="text-xs text-gray-500 font-normal">digital-skills.jobsexperts.com</p>
+                                            </td>
+                                            <td class="px-6 py-4"><span class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">Pending</span></td>
+                                            <td class="px-6 py-4">8 teachers<br>320 students</td>
+                                            <td class="px-6 py-4">15 this month</td>
+                                            <td class="px-6 py-4">2024-12-15</td>
+                                            <td class="px-6 py-4 space-x-2"><a href="#" class="font-medium text-blue-600 hover:underline">View</a> <a href="#" class="font-medium text-blue-600 hover:underline">Settings</a></td>
+                                        </tr>
+                                         <tr class="bg-white border-b">
+                                            <td class="px-6 py-4 font-medium text-gray-900">
+                                                Programming Bootcamp
+                                                <p class="text-xs text-gray-500 font-normal">prog-bootcamp.jobsexperts.com</p>
+                                            </td>
+                                            <td class="px-6 py-4"><span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">Active</span></td>
+                                            <td class="px-6 py-4">6 teachers<br>180 students</td>
+                                            <td class="px-6 py-4">42 this month</td>
+                                            <td class="px-6 py-4">2024-12-16</td>
+                                            <td class="px-6 py-4 space-x-2"><a href="#" class="font-medium text-blue-600 hover:underline">View</a> <a href="#" class="font-medium text-blue-600 hover:underline">Settings</a></td>
+                                        </tr>
+                                        <tr class="bg-white">
+                                            <td class="px-6 py-4 font-medium text-gray-900">
+                                                Code Masters Institute
+                                                <p class="text-xs text-gray-500 font-normal">code-masters.jobsexperts.com</p>
+                                            </td>
+                                            <td class="px-6 py-4"><span class="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">Inactive</span></td>
+                                            <td class="px-6 py-4">4 teachers<br>95 students</td>
+                                            <td class="px-6 py-4">0 this month</td>
+                                            <td class="px-6 py-4">2024-11-25</td>
+                                            <td class="px-6 py-4 space-x-2"><a href="#" class="font-medium text-blue-600 hover:underline">View</a> <a href="#" class="font-medium text-blue-600 hover:underline">Settings</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Platform Activity Summary -->
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 mt-8">
+                        <div class="mb-4">
+                            <h3 class="font-semibold text-gray-800">Platform Activity Summary</h3>
+                            <p class="text-sm text-gray-500">Real-time metrics and performance indicators</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <!-- Institute Adoption Rate -->
+                            <div>
+                                <div class="flex justify-between items-center mb-1">
+                                    <p class="text-sm font-medium text-gray-700">Institute Adoption Rate</p>
+                                    <p class="text-sm font-bold text-gray-800">87%</p>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-blue-600 h-2 rounded-full" style="width: 87%"></div>
+                                </div>
+                            </div>
+                            <!-- User Engagement -->
+                            <div>
+                                <div class="flex justify-between items-center mb-1">
+                                    <p class="text-sm font-medium text-gray-700">User Engagement</p>
+                                    <p class="text-sm font-bold text-gray-800">92%</p>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-blue-600 h-2 rounded-full" style="width: 92%"></div>
+                                </div>
+                            </div>
+                            <!-- System Performance -->
+                            <div>
+                                <div class="flex justify-between items-center mb-1">
+                                    <p class="text-sm font-medium text-gray-700">System Performance</p>
+                                    <p class="text-sm font-bold text-gray-800">96%</p>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-blue-600 h-2 rounded-full" style="width: 96%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navGroup = document.getElementById('nav-group');
+            if (navGroup) {
+                const navItems = navGroup.querySelectorAll('.nav-item');
+
+                function setActive(el) {
+                    navItems.forEach(item => {
+                        item.classList.remove('bg-blue-600', 'text-white', 'shadow-md');
+                        item.classList.add('text-gray-700', 'hover:bg-gray-200');
+                    });
+                    el.classList.add('bg-blue-600', 'text-white', 'shadow-md');
+                    el.classList.remove('text-gray-700', 'hover:bg-gray-200');
+                }
+
+                const adminButton = navGroup.querySelector('[data-role="Admin"]');
+                if (adminButton) {
+                    setActive(adminButton);
+                }
+
+                navGroup.addEventListener('click', function(e) {
+                    const clickedButton = e.target.closest('.nav-item');
+                    if (clickedButton) {
+                        setActive(clickedButton);
+                    }
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
